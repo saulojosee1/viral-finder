@@ -1,6 +1,8 @@
 """
 filter.py — Aplica os critérios de qualidade definidos
+Modos: 'shorts' (≤ 60s) | 'long' (> 20min)
 """
+import re
 import logging
 from datetime import datetime, timezone
 import config
@@ -17,14 +19,23 @@ YOUTUBE_CATEGORIES = {
 }
 
 
+def parse_duration_seconds(iso_duration: str) -> int:
+    """Converte duração ISO 8601 (ex: PT1M30S) em segundos."""
+    match = re.match(r"PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?", iso_duration or "PT0S")
+    if not match:
+        return 0
+    hours   = int(match.group(1) or 0)
+    minutes = int(match.group(2) or 0)
+    seconds = int(match.group(3) or 0)
+    return hours * 3600 + minutes * 60 + seconds
+
+
 def is_excluded(text: str) -> bool:
-    """Retorna True se o texto contém termos excluídos (ex: GTA 6)."""
     text_lower = text.lower()
     return any(term in text_lower for term in config.EXCLUDED_TERMS)
 
 
 def is_channel_new(channel_detail: dict) -> bool:
-    """Verifica se o canal foi criado dentro da janela de 90 dias."""
     created_at_str = channel_detail.get("createdAt", "")
     if not created_at_str:
         return False
@@ -36,11 +47,9 @@ def is_channel_new(channel_detail: dict) -> bool:
 
 
 def calc_views_per_day(view_count: int, published_at: str) -> float:
-    """Calcula a média de views por dia desde a publicação."""
     try:
         pub = datetime.fromisoformat(published_at.replace("Z", "+00:00"))
         days_alive = max((config.NOW - pub).days, 1)
-        # Limita ao teto da janela de viralização
         days_measured = min(days_alive, config.VIDEO_VIRAL_WINDOW_DAYS)
         return view_count / days_measured
     except Exception:
@@ -48,17 +57,17 @@ def calc_views_per_day(view_count: int, published_at: str) -> float:
 
 
 def get_niche(video_stat: dict, search_term: str) -> str:
-    """Determina o nicho do vídeo via categoria do YouTube ou termo de busca."""
     category_id = video_stat.get("categoryId", "")
     if category_id in YOUTUBE_CATEGORIES:
         return YOUTUBE_CATEGORIES[category_id]
-    # Fallback: usa o termo de busca capitalizado
     return search_term.capitalize()
 
 
-def filter_videos(raw_videos: list[dict], video_stats: dict, channel_details: dict, search_term: str) -> list[dict]:
+def filter_videos(raw_videos: list[dict], video_stats: dict, channel_details: dict,
+                  search_term: str, mode: str = "long") -> list[dict]:
     """
-    Recebe os vídeos brutos e retorna apenas os que passam em todos os critérios.
+    Filtra vídeos pelos critérios de qualidade.
+    mode: 'shorts' → duração ≤ 60s | 'long' → duração > 20min
     """
     qualified = []
     seen_video_ids = set()
@@ -71,27 +80,31 @@ def filter_videos(raw_videos: list[dict], video_stats: dict, channel_details: di
             continue
         seen_video_ids.add(vid)
 
-        # Verificar exclusões no título/descrição
         full_text = f"{v['title']} {v['description']}"
         if is_excluded(full_text):
-            logger.debug(f"Excluído por termo bloqueado: {v['title']}")
             continue
 
-        stats = video_stats.get(vid)
+        stats   = video_stats.get(vid)
         channel = channel_details.get(cid)
-
         if not stats or not channel:
             continue
 
-        # Critério 1: canal novo (≤ 90 dias)
+        # ── Critério de duração por modo ─────────────────────────────────────
+        duration_secs = parse_duration_seconds(stats.get("duration", "PT0S"))
+        if mode == "shorts" and duration_secs > config.SHORTS_MAX_SECONDS:
+            continue
+        if mode == "long" and duration_secs < config.LONG_MIN_SECONDS:
+            continue
+
+        # ── Canal novo (≤ 90 dias) ────────────────────────────────────────────
         if not is_channel_new(channel):
             continue
 
-        # Critério 2: vídeo com ≥ 100k views
+        # ── Views mínimas ─────────────────────────────────────────────────────
         if stats["viewCount"] < config.VIDEO_MIN_VIEWS:
             continue
 
-        # Critério 3: velocidade ≥ 10k views/dia na janela de 14 dias
+        # ── Velocidade ────────────────────────────────────────────────────────
         vpd = calc_views_per_day(stats["viewCount"], stats["publishedAt"])
         if vpd < config.VIDEO_MIN_VIEWS_PER_DAY:
             continue
@@ -106,6 +119,7 @@ def filter_videos(raw_videos: list[dict], video_stats: dict, channel_details: di
             "viewCount":      stats["viewCount"],
             "likeCount":      stats["likeCount"],
             "viewsPerDay":    round(vpd, 0),
+            "durationSecs":   duration_secs,
             "publishedAt":    stats["publishedAt"],
             "channelId":      cid,
             "channelTitle":   channel["channelTitle"],
@@ -114,6 +128,7 @@ def filter_videos(raw_videos: list[dict], video_stats: dict, channel_details: di
             "subscriberCount": channel["subscriberCount"],
             "niche":          niche,
             "searchTerm":     search_term,
+            "mode":           mode,
         })
 
     return qualified

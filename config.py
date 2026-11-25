@@ -10,13 +10,16 @@ VIDEO_MIN_VIEWS           = 100_000  # vídeo precisa de no mínimo X views
 VIDEO_MIN_VIEWS_PER_DAY   = 10_000  # velocidade: views/dia na janela abaixo
 VIDEO_VIRAL_WINDOW_DAYS   = 14       # janela para medir velocidade de viralização
 
+# ── Duração por modo ──────────────────────────────────────────────────────────
+SHORTS_MAX_SECONDS  = 60    # Shorts: até 60 segundos
+LONG_MIN_SECONDS    = 1200  # Vídeos longos: mais de 20 minutos
+
 # ── Exclusões ─────────────────────────────────────────────────────────────────
 EXCLUDED_TERMS = [
     "gta 6", "gta6", "gta vi", "grand theft auto 6", "grand theft auto vi",
 ]
 
 # ── Busca ─────────────────────────────────────────────────────────────────────
-# Termos amplos para cobrir vários nichos; API vai trazer vídeos recentes
 SEARCH_TERMS = [
     "tutorial", "review", "como fazer", "vlog", "unboxing",
     "receita", "gameplay", "fitness", "tecnologia", "finanças",
@@ -33,4 +36,3 @@ SEARCH_PUBLISHED_AFTER = (NOW - timedelta(days=90)).strftime("%Y-%m-%dT%H:%M:%SZ
 
 # ── Saída ─────────────────────────────────────────────────────────────────────
 REPORTS_DIR = "reports"
-TEMPLATE_PATH = "templates/report.html"

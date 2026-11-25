@@ -1,11 +1,12 @@
 """
 main.py — Ponto de entrada do Viral Finder
+Roda dois passes: Shorts e Vídeos Longos
 """
 import logging
 import sys
 from fetcher import get_youtube_client, search_recent_videos, get_video_stats, get_channel_details
 from filter import filter_videos
-from reporter import save_report
+from reporter import save_report, save_landing_page
 import config
 
 logging.basicConfig(
@@ -16,65 +17,81 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def run():
-    if not config.YOUTUBE_API_KEY:
-        logger.error("❌ YOUTUBE_API_KEY não definida! Configure a variável de ambiente.")
-        sys.exit(1)
+def collect_videos(youtube, mode: str) -> list[dict]:
+    """Busca, filtra e retorna vídeos qualificados para o modo dado."""
+    # Mapeamento de modo para parâmetro da API
+    duration_param = "short" if mode == "shorts" else "long"
+    label = "📱 Shorts" if mode == "shorts" else "🎬 Vídeos Longos"
 
-    logger.info("🚀 Viral Finder iniciado")
-    logger.info(f"📋 Critérios: canal ≤ {config.CHANNEL_MAX_AGE_DAYS} dias | vídeo ≥ {config.VIDEO_MIN_VIEWS:,} views | velocidade ≥ {config.VIDEO_MIN_VIEWS_PER_DAY:,} views/dia")
+    logger.info(f"\n{'='*50}")
+    logger.info(f"{label} — iniciando busca")
+    logger.info(f"{'='*50}")
 
-    youtube = get_youtube_client()
-    all_raw_videos = []
-
-    # 1. Buscar vídeos por todos os termos de pesquisa
+    all_raw = []
     for term in config.SEARCH_TERMS:
-        logger.info(f"🔍 Buscando: '{term}'")
-        raw = search_recent_videos(youtube, term, config.SEARCH_PUBLISHED_AFTER)
+        logger.info(f"  🔍 '{term}'")
+        raw = search_recent_videos(youtube, term, config.SEARCH_PUBLISHED_AFTER, duration_param)
         for item in raw:
-            item["_searchTerm"] = term  # guarda o termo para classificação de nicho
-        all_raw_videos.extend(raw)
-        logger.info(f"   → {len(raw)} vídeos encontrados")
+            item["_searchTerm"] = term
+        all_raw.extend(raw)
 
-    logger.info(f"\n📦 Total bruto: {len(all_raw_videos)} vídeos (antes dos filtros)")
+    logger.info(f"  📦 Total bruto: {len(all_raw)}")
 
-    # 2. Deduplica por videoId (mesmo vídeo pode aparecer em termos diferentes)
+    # Deduplica
     seen = {}
-    for v in all_raw_videos:
-        vid = v["videoId"]
-        if vid not in seen:
-            seen[vid] = v
-    unique_videos = list(seen.values())
-    logger.info(f"🔄 Após deduplicação: {len(unique_videos)} vídeos únicos")
+    for v in all_raw:
+        if v["videoId"] not in seen:
+            seen[v["videoId"]] = v
+    unique = list(seen.values())
+    logger.info(f"  🔄 Únicos: {len(unique)}")
 
-    # 3. Busca estatísticas detalhadas dos vídeos (em lotes de 50)
-    video_ids = [v["videoId"] for v in unique_videos]
-    logger.info(f"📊 Buscando estatísticas de {len(video_ids)} vídeos...")
+    # Stats dos vídeos
+    video_ids = [v["videoId"] for v in unique]
+    logger.info(f"  📊 Buscando stats de {len(video_ids)} vídeos...")
     video_stats = get_video_stats(youtube, video_ids)
 
-    # 4. Busca detalhes dos canais (em lotes de 50)
-    channel_ids = list({v["channelId"] for v in unique_videos})
-    logger.info(f"📢 Buscando detalhes de {len(channel_ids)} canais...")
+    # Detalhes dos canais
+    channel_ids = list({v["channelId"] for v in unique})
+    logger.info(f"  📢 Buscando {len(channel_ids)} canais...")
     channel_details = get_channel_details(youtube, channel_ids)
 
-    # 5. Aplica os filtros de qualidade
-    logger.info("🔎 Aplicando critérios de qualidade...")
+    # Filtra
     qualified = []
-    for v in unique_videos:
+    for v in unique:
         term = v.get("_searchTerm", "")
-        result = filter_videos([v], video_stats, channel_details, term)
+        result = filter_videos([v], video_stats, channel_details, term, mode=mode)
         qualified.extend(result)
 
-    logger.info(f"\n✅ {len(qualified)} vídeos qualificados passaram nos critérios")
+    logger.info(f"  ✅ {len(qualified)} vídeos qualificados em {label}")
+    return qualified
 
-    if not qualified:
-        logger.warning("⚠️ Nenhum vídeo qualificado encontrado. Verifique os critérios ou a cota da API.")
-        # Mesmo assim gera um relatório vazio para registrar a execução
-    
-    # 6. Gera o relatório HTML
-    logger.info("📄 Gerando relatório HTML...")
-    path = save_report(qualified)
-    logger.info(f"🎉 Concluído! Relatório: {path}")
+
+def run():
+    if not config.YOUTUBE_API_KEY:
+        logger.error("❌ YOUTUBE_API_KEY não definida!")
+        sys.exit(1)
+
+    logger.info("🚀 Viral Finder iniciado — 2 modos: Shorts + Vídeos Longos")
+
+    youtube = get_youtube_client()
+
+    # ── Passe 1: Shorts ───────────────────────────────────────────────────────
+    shorts_videos = collect_videos(youtube, mode="shorts")
+    shorts_path   = save_report(shorts_videos, mode="shorts")
+
+    # ── Passe 2: Vídeos Longos ────────────────────────────────────────────────
+    long_videos = collect_videos(youtube, mode="long")
+    long_path   = save_report(long_videos, mode="long")
+
+    # ── Página inicial com links para os dois ─────────────────────────────────
+    save_landing_page(
+        shorts_count=len(shorts_videos),
+        long_count=len(long_videos),
+    )
+
+    logger.info(f"\n🎉 Concluído!")
+    logger.info(f"   📱 Shorts:        {shorts_path}")
+    logger.info(f"   🎬 Vídeos Longos: {long_path}")
 
 
 if __name__ == "__main__":
