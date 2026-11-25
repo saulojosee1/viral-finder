@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>📱 Shorts Virais — 25/11/2026 às 18:08h UTC</title>
+<style>
+  .header{background:linear-gradient(135deg,#4c0519 0%,#0f172a 50%,#1e1b4b 100%);}
+  
+  :root{--bg:#0f0f13;--surface:#1a1a24;--surface2:#22222f;--accent:#f43f5e;--accent2:#fb7185;
+    --gold:#f59e0b;--text:#e2e8f0;--muted:#94a3b8;--border:#2d2d3f;--green:#10b981;
+    --opp-high:#10b981;--opp-mid:#f59e0b;--opp-low:#ef4444;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;}
+  .header{background:placeholder;padding:2.5rem 2rem;text-align:center;border-bottom:1px solid var(--border);}
+  .header h1{font-size:2.2rem;font-weight:800;background:linear-gradient(90deg,#f43f5e,#fb7185);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .header p{color:var(--muted);margin-top:.4rem;}
+  .run-date{display:inline-block;margin-top:.8rem;padding:.3rem 1rem;
+    background:rgba(0,0,0,.3);border:1px solid var(--accent);border-radius:999px;font-size:.85rem;color:#fb7185;}
+  .back-link{display:inline-block;margin-top:.8rem;margin-left:.5rem;padding:.3rem 1rem;
+    background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:999px;
+    font-size:.85rem;color:var(--muted);text-decoration:none;}
+  .back-link:hover{color:var(--text);}
+  .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+    gap:1rem;padding:2rem;max-width:1300px;margin:0 auto;}
+  .sum-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+    padding:1.2rem;text-align:center;}
+  .sum-card .val{font-size:1.9rem;font-weight:800;color:var(--accent2);}
+  .sum-card .lbl{font-size:.78rem;color:var(--muted);margin-top:.2rem;}
+  .section{max-width:1300px;margin:0 auto;padding:1rem 2rem 2rem;}
+  .section h2{font-size:1.25rem;font-weight:700;margin-bottom:1.2rem;padding-bottom:.6rem;
+    border-bottom:2px solid var(--border);}
+
+  /* Lang breakdown */
+  .lang-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem;}
+  .lang-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.2rem;}
+  .lang-title{font-size:1.1rem;font-weight:700;margin-bottom:.8rem;}
+  .lang-stat{display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid var(--border);font-size:.85rem;}
+  .lang-stat:last-child{border-bottom:none;}
+  .lang-val{font-weight:700;color:var(--accent2);}
+
+  /* Opportunity cards */
+  .opp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;}
+  .opp-card{background:var(--surface);border-radius:14px;padding:1.4rem;position:relative;overflow:hidden;}
+  .opp-card.high{border:2px solid var(--opp-high);}
+  .opp-card.mid {border:2px solid var(--opp-mid);}
+  .opp-card.low {border:2px solid var(--opp-low);}
+  .opp-score-badge{position:absolute;top:1rem;right:1rem;width:52px;height:52px;
+    border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:1.1rem;font-weight:900;}
+  .high .opp-score-badge{background:rgba(16,185,129,.15);color:var(--opp-high);border:2px solid var(--opp-high);}
+  .mid  .opp-score-badge{background:rgba(245,158,11,.15);color:var(--opp-mid); border:2px solid var(--opp-mid);}
+  .low  .opp-score-badge{background:rgba(239,68,68,.15); color:var(--opp-low); border:2px solid var(--opp-low);}
+  .opp-niche{font-size:1.1rem;font-weight:800;margin-bottom:.3rem;}
+  .opp-label{display:inline-block;padding:.15rem .6rem;border-radius:999px;font-size:.72rem;
+    font-weight:700;margin-bottom:.8rem;}
+  .high .opp-label{background:rgba(16,185,129,.15);color:var(--opp-high);}
+  .mid  .opp-label{background:rgba(245,158,11,.15); color:var(--opp-mid);}
+  .low  .opp-label{background:rgba(239,68,68,.15);  color:var(--opp-low);}
+  .opp-row{display:flex;justify-content:space-between;font-size:.82rem;padding:.25rem 0;
+    border-bottom:1px solid var(--border);}
+  .opp-row:last-child{border:none;}
+  .opp-key{color:var(--muted);}
+  .opp-val{font-weight:600;}
+  .opp-format{margin-top:.8rem;font-size:.8rem;color:var(--muted);
+    background:var(--surface2);padding:.5rem .8rem;border-radius:8px;}
+  .opp-lang-bar{margin-top:.8rem;}
+  .opp-lang-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem;font-size:.78rem;}
+  .opp-bar-bg{flex:1;background:var(--surface2);border-radius:999px;height:6px;overflow:hidden;}
+  .opp-bar-fill{height:100%;border-radius:999px;background:var(--accent2);}
+
+  /* Niche table */
+  .niche-grid{display:flex;flex-direction:column;gap:.7rem;}
+  .niche-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+    padding:1rem 1.2rem;display:flex;align-items:flex-start;gap:1rem;transition:border-color .2s;}
+  .niche-card:hover{border-color:var(--accent);}
+  .niche-card.top{border-color:var(--gold);background:linear-gradient(135deg,#1a1a24,#1f1a0f);}
+  .niche-rank{font-size:1.7rem;min-width:2.4rem;text-align:center;}
+  .niche-name{font-size:1rem;font-weight:700;margin-bottom:.4rem;}
+  .niche-stats{display:flex;flex-wrap:wrap;gap:.35rem;}
+  .pill{background:var(--surface2);border:1px solid var(--border);border-radius:999px;
+    padding:.18rem .6rem;font-size:.78rem;color:var(--muted);}
+  .pill.v{color:var(--accent2);border-color:var(--accent2);}
+  .pill.s{color:var(--green);border-color:var(--green);}
+  .lang-pills{display:flex;gap:.3rem;margin-top:.4rem;flex-wrap:wrap;}
+  .lang-pill{border-radius:999px;padding:.15rem .5rem;font-size:.72rem;font-weight:600;
+    background:rgba(255,255,255,.07);}
+  .top-hint{margin-top:.4rem;font-size:.78rem;color:var(--muted);}
+  .top-hint a{color:var(--accent2);text-decoration:none;}
+
+  /* Tables */
+  .table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border);}
+  table{width:100%;border-collapse:collapse;font-size:.86rem;}
+  th{background:var(--surface2);padding:.75rem 1rem;text-align:left;font-weight:600;color:var(--muted);white-space:nowrap;}
+  td{padding:.7rem 1rem;border-top:1px solid var(--border);vertical-align:middle;}
+  tr:hover td{background:rgba(124,58,237,.05);}
+  .num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600;}
+  .spd{color:var(--green);}
+  .rk{text-align:center;font-weight:800;color:var(--accent2);font-size:1.05rem;}
+  .thumb{width:78px;height:44px;object-fit:cover;border-radius:4px;margin-right:.5rem;vertical-align:middle;}
+  .vlink{color:var(--text);text-decoration:none;display:flex;align-items:center;gap:.4rem;}
+  .vlink:hover{color:var(--accent2);}
+  .clink{color:var(--accent2);text-decoration:none;font-weight:600;}
+  .clink:hover{text-decoration:underline;}
+  .cage{font-size:.73rem;color:var(--muted);}
+  .nbadge{background:rgba(124,58,237,.15);border:1px solid var(--accent);
+    color:#fb7185;border-radius:999px;padding:.13rem .55rem;font-size:.73rem;white-space:nowrap;}
+  .lbadge{border-radius:999px;padding:.13rem .55rem;font-size:.73rem;white-space:nowrap;
+    background:rgba(255,255,255,.07);}
+  .footer{text-align:center;padding:2rem;color:var(--muted);font-size:.78rem;
+    border-top:1px solid var(--border);margin-top:2rem;}
+  @media(max-width:600px){.header h1{font-size:1.5rem;}.section{padding:1rem;}.thumb{display:none;}}
+
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>📱 Shorts Virais</h1>
+  <p>Vídeos verticais ≤ 60 segundos · canais ≤ 90 dias · ≥ 100k views · ≥ 10k views/dia · 🌍 PT + EN + ES</p>
+  <div class="run-date">📅 25/11/2026 às 18:08h UTC</div>
+  <a href="index.html" class="back-link">← Início</a>
+</div>
+
+<div class="summary">
+  <div class="sum-card"><div class="val">13</div><div class="lbl">Vídeos virais</div></div>
+  <div class="sum-card"><div class="val">11</div><div class="lbl">Canais qualificados</div></div>
+  <div class="sum-card"><div class="val">208.1M</div><div class="lbl">Views totais</div></div>
+  <div class="sum-card"><div class="val">3</div><div class="lbl">Nichos detectados</div></div>
+  <div class="sum-card"><div class="val">3</div><div class="lbl">Idiomas monitorados</div></div>
+</div>
+
+<div class="section">
+  <h2>🌍 Comparativo por Idioma</h2>
+  <div class="lang-grid">
+        <div class="lang-card">
+          <div class="lang-title">Português 🇧🇷</div>
+          <div class="lang-stat"><span>Views totais</span><span class="lang-val">64.8M</span></div>
+          <div class="lang-stat"><span>Vídeos virais</span><span class="lang-val">4</span></div>
+          <div class="lang-stat"><span>Canais únicos</span><span class="lang-val">4</span></div>
+          <div class="lang-stat"><span>% das views totais</span><span class="lang-val">31%</span></div>
+        </div>
+        <div class="lang-card">
+          <div class="lang-title">English 🇺🇸</div>
+          <div class="lang-stat"><span>Views totais</span><span class="lang-val">25.0M</span></div>
+          <div class="lang-stat"><span>Vídeos virais</span><span class="lang-val">2</span></div>
+          <div class="lang-stat"><span>Canais únicos</span><span class="lang-val">2</span></div>
+          <div class="lang-stat"><span>% das views totais</span><span class="lang-val">12%</span></div>
+        </div>
+        <div class="lang-card">
+          <div class="lang-title">Español 🇪🇸</div>
+          <div class="lang-stat"><span>Views totais</span><span class="lang-val">118.4M</span></div>
+          <div class="lang-stat"><span>Vídeos virais</span><span class="lang-val">7</span></div>
+          <div class="lang-stat"><span>Canais únicos</span><span class="lang-val">5</span></div>
+          <div class="lang-stat"><span>% das views totais</span><span class="lang-val">57%</span></div>
+        </div></div>
+</div>
+
+<div class="section">
+  <h2>🎯 Oportunidades para Canal Dark — Top Nichos</h2>
+  <p style="color:var(--muted);font-size:.85rem;margin-bottom:1.2rem">
+    Score considera: compatibilidade dark (40%) · demanda/views (25%) · baixa concorrência (20%) · velocidade (15%)
+  </p>
+  <div class="opp-grid">
+        <div class="opp-card high">
+          <div class="opp-score-badge">75</div>
+          <div class="opp-niche">📚 Educação</div>
+          <span class="opp-label">🟢 ALTA OPORTUNIDADE</span>
+          <div class="opp-row"><span class="opp-key">👁 Views totais</span><span class="opp-val">11.2M</span></div>
+          <div class="opp-row"><span class="opp-key">📹 Vídeos virais</span><span class="opp-val">2</span></div>
+          <div class="opp-row"><span class="opp-key">📢 Canais concorrentes</span><span class="opp-val">2</span></div>
+          <div class="opp-row"><span class="opp-key">⚡ Velocidade média</span><span class="opp-val">465K/dia</span></div>
+          <div class="opp-row"><span class="opp-key">🤖 Compat. dark channel</span><span class="opp-val">97/100</span></div>
+          <div class="opp-format">🎬 Formato sugerido: Narração IA + slides + infográficos</div>
+          <div class="opp-format" style="margin-top:.4rem">🏆 Top vídeo: <a href="https://youtube.com/watch?v=qDLzyMQV4qY" target="_blank" style="color:var(--accent2)">Why You Should Never Run Inside a Train Tunne…</a></div>
+          <div class="opp-lang-bar">
+            <div class="opp-lang-row">
+              <span style="width:90px">🇧🇷 Português</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:0%"></div></div>
+              <span style="width:50px;text-align:right">0</span>
+            </div>
+            <div class="opp-lang-row">
+              <span style="width:90px">🇺🇸 English</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:100%"></div></div>
+              <span style="width:50px;text-align:right">10.9M</span>
+            </div>
+            <div class="opp-lang-row">
+              <span style="width:90px">🇪🇸 Español</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:2%"></div></div>
+              <span style="width:50px;text-align:right">252K</span>
+            </div></div>
+        </div>
+        <div class="opp-card high">
+          <div class="opp-score-badge">73</div>
+          <div class="opp-niche">🎬 Entretenimento</div>
+          <span class="opp-label">🟢 ALTA OPORTUNIDADE</span>
+          <div class="opp-row"><span class="opp-key">👁 Views totais</span><span class="opp-val">20.5M</span></div>
+          <div class="opp-row"><span class="opp-key">📹 Vídeos virais</span><span class="opp-val">2</span></div>
+          <div class="opp-row"><span class="opp-key">📢 Canais concorrentes</span><span class="opp-val">2</span></div>
+          <div class="opp-row"><span class="opp-key">⚡ Velocidade média</span><span class="opp-val">733K/dia</span></div>
+          <div class="opp-row"><span class="opp-key">🤖 Compat. dark channel</span><span class="opp-val">88/100</span></div>
+          <div class="opp-format">🎬 Formato sugerido: Top listas + imagens/clipes + narração IA</div>
+          <div class="opp-format" style="margin-top:.4rem">🏆 Top vídeo: <a href="https://youtube.com/watch?v=58NdczeVSms" target="_blank" style="color:var(--accent2)">Ninguém quer enfrentar o TADALA! 💀 #curiosida…</a></div>
+          <div class="opp-lang-bar">
+            <div class="opp-lang-row">
+              <span style="width:90px">🇧🇷 Português</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:100%"></div></div>
+              <span style="width:50px;text-align:right">20.5M</span>
+            </div>
+            <div class="opp-lang-row">
+              <span style="width:90px">🇺🇸 English</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:0%"></div></div>
+              <span style="width:50px;text-align:right">0</span>
+            </div>
+            <div class="opp-lang-row">
+              <span style="width:90px">🇪🇸 Español</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:0%"></div></div>
+              <span style="width:50px;text-align:right">0</span>
+            </div></div>
+        </div>
+        <div class="opp-card mid">
+          <div class="opp-score-badge">58</div>
+          <div class="opp-niche">🗣️ Pessoas & Blogs</div>
+          <span class="opp-label">🟡 OPORTUNIDADE MÉDIA</span>
+          <div class="opp-row"><span class="opp-key">👁 Views totais</span><span class="opp-val">176.4M</span></div>
+          <div class="opp-row"><span class="opp-key">📹 Vídeos virais</span><span class="opp-val">9</span></div>
+          <div class="opp-row"><span class="opp-key">📢 Canais concorrentes</span><span class="opp-val">7</span></div>
+          <div class="opp-row"><span class="opp-key">⚡ Velocidade média</span><span class="opp-val">1.4M/dia</span></div>
+          <div class="opp-row"><span class="opp-key">🤖 Compat. dark channel</span><span class="opp-val">25/100</span></div>
+          <div class="opp-format">🎬 Formato sugerido: Difícil sem rosto — baixa compatibilidade</div>
+          <div class="opp-format" style="margin-top:.4rem">🏆 Top vídeo: <a href="https://youtube.com/watch?v=eozgPmnZ_xk" target="_blank" style="color:var(--accent2)">Comenta “VIAJAR” si tus hijos necesitan uno 😂…</a></div>
+          <div class="opp-lang-bar">
+            <div class="opp-lang-row">
+              <span style="width:90px">🇧🇷 Português</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:38%"></div></div>
+              <span style="width:50px;text-align:right">44.3M</span>
+            </div>
+            <div class="opp-lang-row">
+              <span style="width:90px">🇺🇸 English</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:12%"></div></div>
+              <span style="width:50px;text-align:right">14.0M</span>
+            </div>
+            <div class="opp-lang-row">
+              <span style="width:90px">🇪🇸 Español</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:100%"></div></div>
+              <span style="width:50px;text-align:right">118.1M</span>
+            </div></div>
+        </div></div>
+</div>
+
+<div class="section">
+  <h2>📊 Ranking por Nicho</h2>
+  <div class="niche-grid">
+        <div class="niche-card top">
+          <div class="niche-rank">🥇</div>
+          <div class="niche-info">
+            <div class="niche-name">🗣️ Pessoas & Blogs <small style="color:var(--muted);font-weight:400;font-size:.75rem">— opp. 58/100</small></div>
+            <div class="niche-stats">
+              <span class="pill v">👁 176.4M</span>
+              <span class="pill">📹 9 vídeos</span>
+              <span class="pill">📢 7 canais</span>
+              <span class="pill s">⚡ 1.4M/dia</span>
+            </div>
+            <div class="lang-pills"><span class="lang-pill">🇧🇷 44.3M views</span><span class="lang-pill">🇺🇸 14.0M views</span><span class="lang-pill">🇪🇸 118.1M views</span></div>
+            <div class="top-hint">🏆 <a href="https://youtube.com/watch?v=eozgPmnZ_xk" target="_blank">Comenta “VIAJAR” si tus hijos necesitan uno 😂… #roadtrip #vi…</a></div>
+          </div>
+        </div>
+        <div class="niche-card top">
+          <div class="niche-rank">🥈</div>
+          <div class="niche-info">
+            <div class="niche-name">🎬 Entretenimento <small style="color:var(--muted);font-weight:400;font-size:.75rem">— opp. 73/100</small></div>
+            <div class="niche-stats">
+              <span class="pill v">👁 20.5M</span>
+              <span class="pill">📹 2 vídeos</span>
+              <span class="pill">📢 2 canais</span>
+              <span class="pill s">⚡ 733K/dia</span>
+            </div>
+            <div class="lang-pills"><span class="lang-pill">🇧🇷 20.5M views</span></div>
+            <div class="top-hint">🏆 <a href="https://youtube.com/watch?v=58NdczeVSms" target="_blank">Ninguém quer enfrentar o TADALA! 💀 #curiosidades #shortsvide…</a></div>
+          </div>
+        </div>
+        <div class="niche-card top">
+          <div class="niche-rank">🥉</div>
+          <div class="niche-info">
+            <div class="niche-name">📚 Educação <small style="color:var(--muted);font-weight:400;font-size:.75rem">— opp. 75/100</small></div>
+            <div class="niche-stats">
+              <span class="pill v">👁 11.2M</span>
+              <span class="pill">📹 2 vídeos</span>
+              <span class="pill">📢 2 canais</span>
+              <span class="pill s">⚡ 465K/dia</span>
+            </div>
+            <div class="lang-pills"><span class="lang-pill">🇺🇸 10.9M views</span><span class="lang-pill">🇪🇸 252K views</span></div>
+            <div class="top-hint">🏆 <a href="https://youtube.com/watch?v=qDLzyMQV4qY" target="_blank">Why You Should Never Run Inside a Train Tunnel😱 #shorts #fac…</a></div>
+          </div>
+        </div></div>
+</div>
+
+<div class="section">
+  <h2>📢 Top 20 Canais</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Canal</th><th>Vídeos virais</th><th>Views totais</th><th>Nicho</th><th>Inscritos</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="rk">1</td>
+          <td><a href="https://youtube.com/channel/UCxu5iNTO1Mo0v6FTqjrNF1g" target="_blank" class="clink">Dozora ☁️</a>
+            <div class="cage">56 dias de vida · 🇪🇸</div></td>
+          <td class="num">2</td>
+          <td class="num">98.0M</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td class="num">40K</td>
+        </tr>
+        <tr>
+          <td class="rk">2</td>
+          <td><a href="https://youtube.com/channel/UChKkQlw6SoMAZXwOgv9e01g" target="_blank" class="clink">Loveneet Valecha Vlogs</a>
+            <div class="cage">73 dias de vida · 🇧🇷</div></td>
+          <td class="num">1</td>
+          <td class="num">43.4M</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td class="num">214K</td>
+        </tr>
+        <tr>
+          <td class="rk">3</td>
+          <td><a href="https://youtube.com/channel/UCQ8Q5oGSB_6mIksZFlGK0RQ" target="_blank" class="clink">Não faz sentido</a>
+            <div class="cage">78 dias de vida · 🇧🇷</div></td>
+          <td class="num">1</td>
+          <td class="num">16.0M</td>
+          <td><span class="nbadge">Entretenimento</span></td>
+          <td class="num">70K</td>
+        </tr>
+        <tr>
+          <td class="rk">4</td>
+          <td><a href="https://youtube.com/channel/UCIYU6RuYRMy7K0V2ZjHb6TA" target="_blank" class="clink">ram_hi</a>
+            <div class="cage">85 dias de vida · 🇺🇸</div></td>
+          <td class="num">1</td>
+          <td class="num">14.0M</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td class="num">23K</td>
+        </tr>
+        <tr>
+          <td class="rk">5</td>
+          <td><a href="https://youtube.com/channel/UCeFcMt922qu4iEauXkTS5eQ" target="_blank" class="clink">Abraxxo </a>
+            <div class="cage">48 dias de vida · 🇪🇸</div></td>
+          <td class="num">2</td>
+          <td class="num">11.2M</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td class="num">5K</td>
+        </tr>
+        <tr>
+          <td class="rk">6</td>
+          <td><a href="https://youtube.com/channel/UCyJjAQ8szklTB9swUXfQA9g" target="_blank" class="clink">Sumiit Facts</a>
+            <div class="cage">37 dias de vida · 🇺🇸</div></td>
+          <td class="num">1</td>
+          <td class="num">10.9M</td>
+          <td><span class="nbadge">Educação</span></td>
+          <td class="num">20K</td>
+        </tr>
+        <tr>
+          <td class="rk">7</td>
+          <td><a href="https://youtube.com/channel/UCxgcxwbr7Q_w_3yBy_AfU2A" target="_blank" class="clink">Nubbi</a>
+            <div class="cage">57 dias de vida · 🇪🇸</div></td>
+          <td class="num">1</td>
+          <td class="num">4.8M</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td class="num">2K</td>
+        </tr>
+        <tr>
+          <td class="rk">8</td>
+          <td><a href="https://youtube.com/channel/UCGma5mUEQBYpXtVkiY1-C9Q" target="_blank" class="clink">Animallouco</a>
+            <div class="cage">77 dias de vida · 🇧🇷</div></td>
+          <td class="num">1</td>
+          <td class="num">4.5M</td>
+          <td><span class="nbadge">Entretenimento</span></td>
+          <td class="num">220K</td>
+        </tr>
+        <tr>
+          <td class="rk">9</td>
+          <td><a href="https://youtube.com/channel/UCwCvFN9c_fwtde0E4bc5hlQ" target="_blank" class="clink">CocinaCurioso</a>
+            <div class="cage">79 dias de vida · 🇪🇸</div></td>
+          <td class="num">1</td>
+          <td class="num">4.1M</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td class="num">38K</td>
+        </tr>
+        <tr>
+          <td class="rk">10</td>
+          <td><a href="https://youtube.com/channel/UC1YM2L7jPN8-VfrTt6rsOvg" target="_blank" class="clink">Sinote</a>
+            <div class="cage">56 dias de vida · 🇧🇷</div></td>
+          <td class="num">1</td>
+          <td class="num">921K</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td class="num">22K</td>
+        </tr>
+        <tr>
+          <td class="rk">11</td>
+          <td><a href="https://youtube.com/channel/UC4LT5IP-BWKiDT_hj_cCtaQ" target="_blank" class="clink">EconomiaGlobal</a>
+            <div class="cage">18 dias de vida · 🇪🇸</div></td>
+          <td class="num">1</td>
+          <td class="num">252K</td>
+          <td><span class="nbadge">Educação</span></td>
+          <td class="num">542</td>
+        </tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section">
+  <h2>🎬 Top 100 Vídeos</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Vídeo</th><th>Canal</th><th>Views</th><th>Velocidade</th><th>Duração</th><th>Nicho</th><th>Publicado</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="rk">1</td>
+          <td><a href="https://youtube.com/watch?v=eozgPmnZ_xk" target="_blank" class="vlink">
+            <img src="https://i.ytimg.com/vi/eozgPmnZ_xk/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Comenta “VIAJAR” si tus hijos necesitan uno 😂… #road…
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCxu5iNTO1Mo0v6FTqjrNF1g" target="_blank" class="clink">Dozora ☁️</a>
+            <div class="cage">56 dias · 🇪🇸</div></td>
+          <td class="num">94.5M</td>
+          <td class="num spd">⚡ 6.7M/dia</td>
+          <td class="num">11s</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td>08/10/2026</td>
+        </tr>
+        <tr>
+          <td class="rk">2</td>
+          <td><a href="https://youtube.com/watch?v=Co78PELUkes" target="_blank" class="vlink">
+            <img src="https://i.ytimg.com/vi/Co78PELUkes/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Abhi mera Kurta Jal Jata🥲 #funny #vlog #diwali #fest…
+          </a></td>
+          <td><a href="https://youtube.com/channel/UChKkQlw6SoMAZXwOgv9e01g" target="_blank" class="clink">Loveneet Valecha Vlogs</a>
+            <div class="cage">73 dias · 🇧🇷</div></td>
+          <td class="num">43.4M</td>
+          <td class="num spd">⚡ 3.1M/dia</td>
+          <td class="num">20s</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td>08/11/2026</td>
+        </tr>
+        <tr>
+          <td class="rk">3</td>
+          <td><a href="https://youtube.com/watch?v=58NdczeVSms" target="_blank" class="vlink">
+            <img src="https://i.ytimg.com/vi/58NdczeVSms/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Ninguém quer enfrentar o TADALA! 💀 #curiosidades #sh…
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCQ8Q5oGSB_6mIksZFlGK0RQ" target="_blank" class="clink">Não faz sentido</a>
+            <div class="cage">78 dias · 🇧🇷</div></td>
+          <td class="num">16.0M</td>
+          <td class="num spd">⚡ 1.1M/dia</td>
+          <td class="num">34s</td>
+          <td><span class="nbadge">Entretenimento</span></td>
+          <td>10/09/2026</td>
+        </tr>
+        <tr>
+          <td class="rk">4</td>
+          <td><a href="https://youtube.com/watch?v=ck2U0ObeVMA" target="_blank" class="vlink">
+            <img src="https://i.ytimg.com/vi/ck2U0ObeVMA/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            you’re using Vaseline wrong❗ real korean beauty hack
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCIYU6RuYRMy7K0V2ZjHb6TA" target="_blank" class="clink">ram_hi</a>
+            <div class="cage">85 dias · 🇺🇸</div></td>
+          <td class="num">14.0M</td>
+          <td class="num spd">⚡ 1.0M/dia</td>
+          <td class="num">27s</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td>03/09/2026</td>
+        </tr>
+        <tr>
+          <td class="rk">5</td>
+          <td><a href="https://youtube.com/watch?v=qDLzyMQV4qY" target="_blank" class="vlink">
+            <img src="https://i.ytimg.com/vi/qDLzyMQV4qY/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Why You Should Never Run Inside a Train Tunnel😱 #sho…
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCyJjAQ8szklTB9swUXfQA9g" target="_blank" class="clink">Sumiit Facts</a>
+            <div class="cage">37 dias · 🇺🇸</div></td>
+          <td class="num">10.9M</td>
+          <td class="num spd">⚡ 911K/dia</td>
+          <td class="num">21s</td>
+          <td><span class="nbadge">Educação</span></td>
+          <td>13/11/2026</td>
+        </tr>
+        <tr>
+          <td class="rk">6</td>
+          <td><a href="https://youtube.com/watch?v=a4I_XYSC-0g" target="_blank" class="vlink">
+            <img src="https://i.ytimg.com/vi/a4I_XYSC-0g/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Cojín de viaje para niños 🚗 6 horas de viaje y no se…
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCeFcMt922qu4iEauXkTS5eQ" target="_blank" class="clink">Abraxxo </a>
+            <div class="cage">48 dias · 🇪🇸</div></td>
+          <td class="num">7.3M</td>
+          <td class="num spd">⚡ 518K/dia</td>
+          <td class="num">13s</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td>26/10/2026</td>
+        </tr>
+        <tr>
+          <td class="rk">7</td>
+          <td><a href="https://youtube.com/watch?v=HjsFMw6wIK0" target="_blank" class="vlink">
+            <img src="https://i.ytimg.com/vi/HjsFMw6wIK0/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            💬 Comenta “VIAJE” si lo necesitas para tu próximo vi…
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCxgcxwbr7Q_w_3yBy_AfU2A" target="_blank" class="clink">Nubbi</a>
+            <div class="cage">57 dias · 🇪🇸</div></td>
+          <td class="num">4.8M</td>
+          <td class="num spd">⚡ 343K/dia</td>
+          <td class="num">11s</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td>15/10/2026</td>
+        </tr>
+        <tr>
+          <td class="rk">8</td>
+          <td><a href="https://youtube.com/watch?v=bOZTCuRsRTc" target="_blank" class="vlink">
+            <img src="https://i.ytimg.com/vi/bOZTCuRsRTc/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Nunca Tenha Um pitbull! #pets #curiosidades #cachorr…
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCGma5mUEQBYpXtVkiY1-C9Q" target="_blank" class="clink">Animallouco</a>
+            <div class="cage">77 dias · 🇧🇷</div></td>
+          <td class="num">4.5M</td>
+          <td class="num spd">⚡ 322K/dia</td>
+          <td class="num">32s</td>
+          <td><span class="nbadge">Entretenimento</span></td>
+          <td>21/10/2026</td>
+        </tr>
+        <tr>
+          <td class="rk">9</td>
+          <td><a href="https://youtube.com/watch?v=-XswshRB4xQ" target="_blank" class="vlink">
+            <img src="https://i.ytimg.com/vi/-XswshRB4xQ/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            La RECETA SECRETA de Feastables acaba de filtrarse 😳…
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCwCvFN9c_fwtde0E4bc5hlQ" target="_blank" class="clink">CocinaCurioso</a>
+            <div class="cage">79 dias · 🇪🇸</div></td>
+          <td class="num">4.1M</td>
+          <td class="num spd">⚡ 295K/dia</td>
+          <td class="num">42s</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td>17/10/2026</td>
+        </tr>
+        <tr>
+          <td class="rk">10</td>
+          <td><a href="https://youtube.com/watch?v=syXEcrFQWSs" target="_blank" class="vlink">
+            <img src="https://i.ytimg.com/vi/syXEcrFQWSs/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Cojín de viaje para niños 🚗 Antes y después: así due…
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCeFcMt922qu4iEauXkTS5eQ" target="_blank" class="clink">Abraxxo </a>
+            <div class="cage">48 dias · 🇪🇸</div></td>
+          <td class="num">3.9M</td>
+          <td class="num spd">⚡ 281K/dia</td>
+          <td class="num">20s</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td>22/10/2026</td>
+        </tr>
+        <tr>
+          <td class="rk">11</td>
+          <td><a href="https://youtube.com/watch?v=C6QfmADX-pk" target="_blank" class="vlink">
+            <img src="https://i.ytimg.com/vi/C6QfmADX-pk/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Comenta “VIAJE” si tu niña necesita esto🚗… #viajar #…
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCxu5iNTO1Mo0v6FTqjrNF1g" target="_blank" class="clink">Dozora ☁️</a>
+            <div class="cage">56 dias · 🇪🇸</div></td>
+          <td class="num">3.5M</td>
+          <td class="num spd">⚡ 249K/dia</td>
+          <td class="num">12s</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td>06/10/2026</td>
+        </tr>
+        <tr>
+          <td class="rk">12</td>
+          <td><a href="https://youtube.com/watch?v=9Dv1dtwVhQQ" target="_blank" class="vlink">
+            <img src="https://i.ytimg.com/vi/9Dv1dtwVhQQ/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            top 5 esportes mais dificeis de se tornar profission…
+          </a></td>
+          <td><a href="https://youtube.com/channel/UC1YM2L7jPN8-VfrTt6rsOvg" target="_blank" class="clink">Sinote</a>
+            <div class="cage">56 dias · 🇧🇷</div></td>
+          <td class="num">921K</td>
+          <td class="num spd">⚡ 66K/dia</td>
+          <td class="num">50s</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td>04/11/2026</td>
+        </tr>
+        <tr>
+          <td class="rk">13</td>
+          <td><a href="https://youtube.com/watch?v=CrkD6x-HRvI" target="_blank" class="vlink">
+            <img src="https://i.ytimg.com/vi/CrkD6x-HRvI/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Que son los dividendos y cuanto dinero necesitarías …
+          </a></td>
+          <td><a href="https://youtube.com/channel/UC4LT5IP-BWKiDT_hj_cCtaQ" target="_blank" class="clink">EconomiaGlobal</a>
+            <div class="cage">18 dias · 🇪🇸</div></td>
+          <td class="num">252K</td>
+          <td class="num spd">⚡ 18K/dia</td>
+          <td class="num">58s</td>
+          <td><span class="nbadge">Educação</span></td>
+          <td>11/11/2026</td>
+        </tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="footer">
+  Viral Finder · YouTube Data API v3 · Canal ≤ 90 dias · ≥ 100k views · ≥ 10k views/dia · GTA 6 excluído · PT + EN + ES
+</div>
+</body>
+</html>
