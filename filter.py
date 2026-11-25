@@ -1,6 +1,5 @@
 """
-filter.py — Aplica os critérios de qualidade definidos
-Modos: 'shorts' (≤ 60s) | 'long' (> 20min)
+filter.py — Critérios de qualidade + duração + rastreio de idioma
 """
 import re
 import logging
@@ -10,124 +9,111 @@ import config
 logger = logging.getLogger(__name__)
 
 YOUTUBE_CATEGORIES = {
-    "1": "Filme & Animação", "2": "Automóveis", "10": "Música",
-    "15": "Animais de Estimação", "17": "Esportes", "18": "Curta-metragem",
-    "19": "Viagem & Eventos", "20": "Games", "21": "Vídeo Blog",
-    "22": "Pessoas & Blogs", "23": "Comédia", "24": "Entretenimento",
-    "25": "Notícias & Política", "26": "Profissões & Tutoriais",
-    "27": "Educação", "28": "Ciência & Tecnologia", "29": "Organizações sem fins lucrativos",
+    "1":  "Filme & Animação",   "2":  "Automóveis",          "10": "Música",
+    "15": "Animais de Estimação","17": "Esportes",            "18": "Curta-metragem",
+    "19": "Viagem & Eventos",   "20": "Games",               "21": "Vídeo Blog",
+    "22": "Pessoas & Blogs",    "23": "Comédia",             "24": "Entretenimento",
+    "25": "Notícias & Política","26": "Profissões & Tutoriais","27": "Educação",
+    "28": "Ciência & Tecnologia","29": "Organizações sem fins lucrativos",
 }
 
+LANG_LABEL = {"pt": "Português 🇧🇷", "en": "English 🇺🇸", "es": "Español 🇪🇸"}
 
-def parse_duration_seconds(iso_duration: str) -> int:
-    """Converte duração ISO 8601 (ex: PT1M30S) em segundos."""
-    match = re.match(r"PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?", iso_duration or "PT0S")
-    if not match:
+
+def parse_duration_seconds(iso: str) -> int:
+    m = re.match(r"PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?", iso or "PT0S")
+    if not m:
         return 0
-    hours   = int(match.group(1) or 0)
-    minutes = int(match.group(2) or 0)
-    seconds = int(match.group(3) or 0)
-    return hours * 3600 + minutes * 60 + seconds
+    return int(m.group(1) or 0)*3600 + int(m.group(2) or 0)*60 + int(m.group(3) or 0)
 
 
 def is_excluded(text: str) -> bool:
-    text_lower = text.lower()
-    return any(term in text_lower for term in config.EXCLUDED_TERMS)
+    t = text.lower()
+    return any(term in t for term in config.EXCLUDED_TERMS)
 
 
-def is_channel_new(channel_detail: dict) -> bool:
-    created_at_str = channel_detail.get("createdAt", "")
-    if not created_at_str:
+def is_channel_new(ch: dict) -> bool:
+    s = ch.get("createdAt", "")
+    if not s:
         return False
     try:
-        created_at = datetime.fromisoformat(created_at_str.replace("Z", "+00:00"))
-        return created_at >= config.CHANNEL_MIN_CREATED
+        return datetime.fromisoformat(s.replace("Z", "+00:00")) >= config.CHANNEL_MIN_CREATED
     except ValueError:
         return False
 
 
-def calc_views_per_day(view_count: int, published_at: str) -> float:
+def calc_views_per_day(views: int, published_at: str) -> float:
     try:
-        pub = datetime.fromisoformat(published_at.replace("Z", "+00:00"))
-        days_alive = max((config.NOW - pub).days, 1)
-        days_measured = min(days_alive, config.VIDEO_VIRAL_WINDOW_DAYS)
-        return view_count / days_measured
+        pub  = datetime.fromisoformat(published_at.replace("Z", "+00:00"))
+        days = max((config.NOW - pub).days, 1)
+        days = min(days, config.VIDEO_VIRAL_WINDOW_DAYS)
+        return views / days
     except Exception:
         return 0.0
 
 
-def get_niche(video_stat: dict, search_term: str) -> str:
-    category_id = video_stat.get("categoryId", "")
-    if category_id in YOUTUBE_CATEGORIES:
-        return YOUTUBE_CATEGORIES[category_id]
-    return search_term.capitalize()
+def get_niche(stat: dict, search_term: str) -> str:
+    cat = stat.get("categoryId", "")
+    return YOUTUBE_CATEGORIES.get(cat, search_term.capitalize())
 
 
-def filter_videos(raw_videos: list[dict], video_stats: dict, channel_details: dict,
-                  search_term: str, mode: str = "long") -> list[dict]:
-    """
-    Filtra vídeos pelos critérios de qualidade.
-    mode: 'shorts' → duração ≤ 60s | 'long' → duração > 20min
-    """
+def filter_videos(raw: list[dict], video_stats: dict, channel_details: dict,
+                  search_term: str, mode: str = "long", lang: str = "pt") -> list[dict]:
     qualified = []
-    seen_video_ids = set()
+    seen = set()
 
-    for v in raw_videos:
+    for v in raw:
         vid = v["videoId"]
         cid = v["channelId"]
-
-        if vid in seen_video_ids:
+        if vid in seen:
             continue
-        seen_video_ids.add(vid)
+        seen.add(vid)
 
-        full_text = f"{v['title']} {v['description']}"
-        if is_excluded(full_text):
+        if is_excluded(f"{v['title']} {v['description']}"):
             continue
 
-        stats   = video_stats.get(vid)
-        channel = channel_details.get(cid)
-        if not stats or not channel:
+        stat = video_stats.get(vid)
+        ch   = channel_details.get(cid)
+        if not stat or not ch:
             continue
 
-        # ── Critério de duração por modo ─────────────────────────────────────
-        duration_secs = parse_duration_seconds(stats.get("duration", "PT0S"))
-        if mode == "shorts" and duration_secs > config.SHORTS_MAX_SECONDS:
+        # Duração
+        dur = parse_duration_seconds(stat.get("duration", "PT0S"))
+        if mode == "shorts" and dur > config.SHORTS_MAX_SECONDS:
             continue
-        if mode == "long" and duration_secs < config.LONG_MIN_SECONDS:
-            continue
-
-        # ── Canal novo (≤ 90 dias) ────────────────────────────────────────────
-        if not is_channel_new(channel):
+        if mode == "long"   and dur < config.LONG_MIN_SECONDS:
             continue
 
-        # ── Views mínimas ─────────────────────────────────────────────────────
-        if stats["viewCount"] < config.VIDEO_MIN_VIEWS:
+        if not is_channel_new(ch):
+            continue
+        if stat["viewCount"] < config.VIDEO_MIN_VIEWS:
             continue
 
-        # ── Velocidade ────────────────────────────────────────────────────────
-        vpd = calc_views_per_day(stats["viewCount"], stats["publishedAt"])
+        vpd = calc_views_per_day(stat["viewCount"], stat["publishedAt"])
         if vpd < config.VIDEO_MIN_VIEWS_PER_DAY:
             continue
 
-        niche = get_niche(stats, search_term)
+        niche = get_niche(stat, search_term)
 
         qualified.append({
             "videoId":        vid,
-            "videoTitle":     stats["title"],
+            "videoTitle":     stat["title"],
             "videoUrl":       f"https://youtube.com/watch?v={vid}",
-            "thumbnailUrl":   stats["thumbnailUrl"],
-            "viewCount":      stats["viewCount"],
-            "likeCount":      stats["likeCount"],
+            "thumbnailUrl":   stat["thumbnailUrl"],
+            "viewCount":      stat["viewCount"],
+            "likeCount":      stat["likeCount"],
             "viewsPerDay":    round(vpd, 0),
-            "durationSecs":   duration_secs,
-            "publishedAt":    stats["publishedAt"],
+            "durationSecs":   dur,
+            "publishedAt":    stat["publishedAt"],
             "channelId":      cid,
-            "channelTitle":   channel["channelTitle"],
+            "channelTitle":   ch["channelTitle"],
             "channelUrl":     f"https://youtube.com/channel/{cid}",
-            "channelCreated": channel["createdAt"],
-            "subscriberCount": channel["subscriberCount"],
+            "channelCreated": ch["createdAt"],
+            "subscriberCount": ch["subscriberCount"],
             "niche":          niche,
             "searchTerm":     search_term,
+            "language":       lang,
+            "languageLabel":  LANG_LABEL.get(lang, lang),
             "mode":           mode,
         })
 
