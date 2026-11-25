@@ -1,0 +1,5 @@
+YOUTUBE_API_KEY=
+reports/
+*.pyc
+__pycache__/
+.env
