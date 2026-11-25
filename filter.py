@@ -19,6 +19,27 @@ YOUTUBE_CATEGORIES = {
 
 LANG_LABEL = {"pt": "Português 🇧🇷", "en": "English 🇺🇸", "es": "Español 🇪🇸"}
 
+# Mapeamento de códigos de idioma da API para nossos 3 grupos
+LANG_MAP = {
+    "pt": "pt", "pt-br": "pt", "pt-pt": "pt",
+    "en": "en", "en-us": "en", "en-gb": "en", "en-au": "en",
+    "es": "es", "es-419": "es", "es-mx": "es", "es-ar": "es", "es-co": "es",
+}
+
+
+def _detect_lang(stat: dict, search_lang: str) -> str:
+    """Detecta o idioma real do vídeo via defaultAudioLanguage ou defaultLanguage."""
+    for field in ("defaultAudioLanguage", "defaultLanguage"):
+        raw = stat.get(field, "").lower().strip()
+        if raw in LANG_MAP:
+            return LANG_MAP[raw]
+        # ex: "pt-BR" → "pt"
+        prefix = raw.split("-")[0]
+        if prefix in LANG_MAP:
+            return LANG_MAP[prefix]
+    # Fallback: idioma da busca que encontrou o vídeo
+    return search_lang
+
 
 def parse_duration_seconds(iso: str) -> int:
     m = re.match(r"PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?", iso or "PT0S")
@@ -94,6 +115,8 @@ def filter_videos(raw: list[dict], video_stats: dict, channel_details: dict,
             continue
 
         niche = get_niche(stat, search_term)
+        # Usa o idioma real do vídeo (detectado via API), não o idioma da busca
+        detected_lang = _detect_lang(stat, lang)
 
         qualified.append({
             "videoId":        vid,
@@ -112,8 +135,8 @@ def filter_videos(raw: list[dict], video_stats: dict, channel_details: dict,
             "subscriberCount": ch["subscriberCount"],
             "niche":          niche,
             "searchTerm":     search_term,
-            "language":       lang,
-            "languageLabel":  LANG_LABEL.get(lang, lang),
+            "language":       detected_lang,
+            "languageLabel":  LANG_LABEL.get(detected_lang, detected_lang),
             "mode":           mode,
         })
 

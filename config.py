@@ -28,24 +28,21 @@ LANGUAGES = [
 ]
 
 # ── Termos de busca por idioma ────────────────────────────────────────────────
+# ⚠️ Limite diário: 10.000 units. Cada search.list = 100 units.
+# Fórmula: termos × idiomas × modos × 100 ≤ 9.000 (margem para stats)
+# 8 termos × 3 idiomas × 2 modos = 48 buscas = 4.800 units → seguro ✅
 SEARCH_TERMS = {
     "pt": [
-        "tutorial", "review", "como fazer", "vlog", "unboxing",
-        "receita", "gameplay", "fitness", "tecnologia", "finanças",
-        "empreendedorismo", "beleza", "viagem", "humor", "educação",
-        "ciência", "curiosidades", "esporte", "música", "motivação",
+        "tutorial", "como fazer", "review", "gameplay",
+        "finanças", "educação", "tecnologia", "motivação",
     ],
     "en": [
-        "tutorial", "review", "how to", "vlog", "unboxing",
-        "recipe", "gameplay", "fitness", "technology", "finance",
-        "entrepreneurship", "beauty", "travel", "comedy", "education",
-        "science", "facts", "sports", "music", "motivation",
+        "tutorial", "how to", "review", "gameplay",
+        "finance", "education", "technology", "motivation",
     ],
     "es": [
-        "tutorial", "reseña", "como hacer", "vlog", "unboxing",
-        "receta", "gameplay", "fitness", "tecnología", "finanzas",
-        "emprendimiento", "belleza", "viaje", "humor", "educación",
-        "ciencia", "curiosidades", "deportes", "música", "motivación",
+        "tutorial", "como hacer", "review", "gameplay",
+        "finanzas", "educación", "tecnología", "motivación",
     ],
 }
 

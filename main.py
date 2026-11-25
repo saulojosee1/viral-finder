@@ -80,6 +80,13 @@ def run():
 
     logger.info("🚀 Viral Finder · PT + EN + ES · Shorts + Vídeos Longos")
 
+    # Estimativa de cota: 8 termos × 3 idiomas × 2 modos × 100 units = 4.800 units
+    # Limite diário gratuito: 10.000 units → margem segura ✅
+    total_terms = sum(len(v) for v in config.SEARCH_TERMS.values())
+    n_modes = 2
+    est_quota = total_terms * n_modes * 100
+    logger.info(f"📊 Estimativa de consumo de cota: ~{est_quota} units (limite: 10.000/dia)")
+
     youtube = get_youtube_client()
 
     shorts_videos = collect_videos(youtube, mode="shorts")
