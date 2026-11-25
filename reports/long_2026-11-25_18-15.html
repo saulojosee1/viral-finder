@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>🎬 Vídeos Longos Virais — 25/11/2026 às 18:15h UTC</title>
+<style>
+  .header{background:linear-gradient(135deg,#1e1b4b 0%,#0f172a 50%,#1e3a2f 100%);}
+  
+  :root{--bg:#0f0f13;--surface:#1a1a24;--surface2:#22222f;--accent:#7c3aed;--accent2:#06b6d4;
+    --gold:#f59e0b;--text:#e2e8f0;--muted:#94a3b8;--border:#2d2d3f;--green:#10b981;
+    --opp-high:#10b981;--opp-mid:#f59e0b;--opp-low:#ef4444;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;}
+  .header{background:placeholder;padding:2.5rem 2rem;text-align:center;border-bottom:1px solid var(--border);}
+  .header h1{font-size:2.2rem;font-weight:800;background:linear-gradient(90deg,#7c3aed,#06b6d4);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .header p{color:var(--muted);margin-top:.4rem;}
+  .run-date{display:inline-block;margin-top:.8rem;padding:.3rem 1rem;
+    background:rgba(0,0,0,.3);border:1px solid var(--accent);border-radius:999px;font-size:.85rem;color:#06b6d4;}
+  .back-link{display:inline-block;margin-top:.8rem;margin-left:.5rem;padding:.3rem 1rem;
+    background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:999px;
+    font-size:.85rem;color:var(--muted);text-decoration:none;}
+  .back-link:hover{color:var(--text);}
+  .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+    gap:1rem;padding:2rem;max-width:1300px;margin:0 auto;}
+  .sum-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+    padding:1.2rem;text-align:center;}
+  .sum-card .val{font-size:1.9rem;font-weight:800;color:var(--accent2);}
+  .sum-card .lbl{font-size:.78rem;color:var(--muted);margin-top:.2rem;}
+  .section{max-width:1300px;margin:0 auto;padding:1rem 2rem 2rem;}
+  .section h2{font-size:1.25rem;font-weight:700;margin-bottom:1.2rem;padding-bottom:.6rem;
+    border-bottom:2px solid var(--border);}
+
+  /* Lang breakdown */
+  .lang-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem;}
+  .lang-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.2rem;}
+  .lang-title{font-size:1.1rem;font-weight:700;margin-bottom:.8rem;}
+  .lang-stat{display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid var(--border);font-size:.85rem;}
+  .lang-stat:last-child{border-bottom:none;}
+  .lang-val{font-weight:700;color:var(--accent2);}
+
+  /* Opportunity cards */
+  .opp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;}
+  .opp-card{background:var(--surface);border-radius:14px;padding:1.4rem;position:relative;overflow:hidden;}
+  .opp-card.high{border:2px solid var(--opp-high);}
+  .opp-card.mid {border:2px solid var(--opp-mid);}
+  .opp-card.low {border:2px solid var(--opp-low);}
+  .opp-score-badge{position:absolute;top:1rem;right:1rem;width:52px;height:52px;
+    border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:1.1rem;font-weight:900;}
+  .high .opp-score-badge{background:rgba(16,185,129,.15);color:var(--opp-high);border:2px solid var(--opp-high);}
+  .mid  .opp-score-badge{background:rgba(245,158,11,.15);color:var(--opp-mid); border:2px solid var(--opp-mid);}
+  .low  .opp-score-badge{background:rgba(239,68,68,.15); color:var(--opp-low); border:2px solid var(--opp-low);}
+  .opp-niche{font-size:1.1rem;font-weight:800;margin-bottom:.3rem;}
+  .opp-label{display:inline-block;padding:.15rem .6rem;border-radius:999px;font-size:.72rem;
+    font-weight:700;margin-bottom:.8rem;}
+  .high .opp-label{background:rgba(16,185,129,.15);color:var(--opp-high);}
+  .mid  .opp-label{background:rgba(245,158,11,.15); color:var(--opp-mid);}
+  .low  .opp-label{background:rgba(239,68,68,.15);  color:var(--opp-low);}
+  .opp-row{display:flex;justify-content:space-between;font-size:.82rem;padding:.25rem 0;
+    border-bottom:1px solid var(--border);}
+  .opp-row:last-child{border:none;}
+  .opp-key{color:var(--muted);}
+  .opp-val{font-weight:600;}
+  .opp-format{margin-top:.8rem;font-size:.8rem;color:var(--muted);
+    background:var(--surface2);padding:.5rem .8rem;border-radius:8px;}
+  .opp-lang-bar{margin-top:.8rem;}
+  .opp-lang-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem;font-size:.78rem;}
+  .opp-bar-bg{flex:1;background:var(--surface2);border-radius:999px;height:6px;overflow:hidden;}
+  .opp-bar-fill{height:100%;border-radius:999px;background:var(--accent2);}
+
+  /* Niche table */
+  .niche-grid{display:flex;flex-direction:column;gap:.7rem;}
+  .niche-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+    padding:1rem 1.2rem;display:flex;align-items:flex-start;gap:1rem;transition:border-color .2s;}
+  .niche-card:hover{border-color:var(--accent);}
+  .niche-card.top{border-color:var(--gold);background:linear-gradient(135deg,#1a1a24,#1f1a0f);}
+  .niche-rank{font-size:1.7rem;min-width:2.4rem;text-align:center;}
+  .niche-name{font-size:1rem;font-weight:700;margin-bottom:.4rem;}
+  .niche-stats{display:flex;flex-wrap:wrap;gap:.35rem;}
+  .pill{background:var(--surface2);border:1px solid var(--border);border-radius:999px;
+    padding:.18rem .6rem;font-size:.78rem;color:var(--muted);}
+  .pill.v{color:var(--accent2);border-color:var(--accent2);}
+  .pill.s{color:var(--green);border-color:var(--green);}
+  .lang-pills{display:flex;gap:.3rem;margin-top:.4rem;flex-wrap:wrap;}
+  .lang-pill{border-radius:999px;padding:.15rem .5rem;font-size:.72rem;font-weight:600;
+    background:rgba(255,255,255,.07);}
+  .top-hint{margin-top:.4rem;font-size:.78rem;color:var(--muted);}
+  .top-hint a{color:var(--accent2);text-decoration:none;}
+
+  /* Tables */
+  .table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border);}
+  table{width:100%;border-collapse:collapse;font-size:.86rem;}
+  th{background:var(--surface2);padding:.75rem 1rem;text-align:left;font-weight:600;color:var(--muted);white-space:nowrap;}
+  td{padding:.7rem 1rem;border-top:1px solid var(--border);vertical-align:middle;}
+  tr:hover td{background:rgba(124,58,237,.05);}
+  .num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600;}
+  .spd{color:var(--green);}
+  .rk{text-align:center;font-weight:800;color:var(--accent2);font-size:1.05rem;}
+  .thumb{width:78px;height:44px;object-fit:cover;border-radius:4px;margin-right:.5rem;vertical-align:middle;}
+  .vlink{color:var(--text);text-decoration:none;display:flex;align-items:center;gap:.4rem;}
+  .vlink:hover{color:var(--accent2);}
+  .clink{color:var(--accent2);text-decoration:none;font-weight:600;}
+  .clink:hover{text-decoration:underline;}
+  .cage{font-size:.73rem;color:var(--muted);}
+  .nbadge{background:rgba(124,58,237,.15);border:1px solid var(--accent);
+    color:#06b6d4;border-radius:999px;padding:.13rem .55rem;font-size:.73rem;white-space:nowrap;}
+  .lbadge{border-radius:999px;padding:.13rem .55rem;font-size:.73rem;white-space:nowrap;
+    background:rgba(255,255,255,.07);}
+  .footer{text-align:center;padding:2rem;color:var(--muted);font-size:.78rem;
+    border-top:1px solid var(--border);margin-top:2rem;}
+  @media(max-width:600px){.header h1{font-size:1.5rem;}.section{padding:1rem;}.thumb{display:none;}}
+
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🎬 Vídeos Longos Virais</h1>
+  <p>Horizontais com mais de 20 minutos · canais ≤ 90 dias · ≥ 100k views · ≥ 10k views/dia · 🌍 PT + EN + ES</p>
+  <div class="run-date">📅 25/11/2026 às 18:15h UTC</div>
+  <a href="index.html" class="back-link">← Início</a>
+</div>
+
+<div class="summary">
+  <div class="sum-card"><div class="val">5</div><div class="lbl">Vídeos virais</div></div>
+  <div class="sum-card"><div class="val">5</div><div class="lbl">Canais qualificados</div></div>
+  <div class="sum-card"><div class="val">1.7M</div><div class="lbl">Views totais</div></div>
+  <div class="sum-card"><div class="val">4</div><div class="lbl">Nichos detectados</div></div>
+  <div class="sum-card"><div class="val">3</div><div class="lbl">Idiomas monitorados</div></div>
+</div>
+
+<div class="section">
+  <h2>🌍 Comparativo por Idioma</h2>
+  <div class="lang-grid">
+        <div class="lang-card">
+          <div class="lang-title">Português 🇧🇷</div>
+          <div class="lang-stat"><span>Views totais</span><span class="lang-val">0</span></div>
+          <div class="lang-stat"><span>Vídeos virais</span><span class="lang-val">0</span></div>
+          <div class="lang-stat"><span>Canais únicos</span><span class="lang-val">0</span></div>
+          <div class="lang-stat"><span>% das views totais</span><span class="lang-val">0%</span></div>
+        </div>
+        <div class="lang-card">
+          <div class="lang-title">English 🇺🇸</div>
+          <div class="lang-stat"><span>Views totais</span><span class="lang-val">0</span></div>
+          <div class="lang-stat"><span>Vídeos virais</span><span class="lang-val">0</span></div>
+          <div class="lang-stat"><span>Canais únicos</span><span class="lang-val">0</span></div>
+          <div class="lang-stat"><span>% das views totais</span><span class="lang-val">0%</span></div>
+        </div>
+        <div class="lang-card">
+          <div class="lang-title">Español 🇪🇸</div>
+          <div class="lang-stat"><span>Views totais</span><span class="lang-val">1.7M</span></div>
+          <div class="lang-stat"><span>Vídeos virais</span><span class="lang-val">5</span></div>
+          <div class="lang-stat"><span>Canais únicos</span><span class="lang-val">5</span></div>
+          <div class="lang-stat"><span>% das views totais</span><span class="lang-val">100%</span></div>
+        </div></div>
+</div>
+
+<div class="section">
+  <h2>🎯 Oportunidades para Canal Dark — Top Nichos</h2>
+  <p style="color:var(--muted);font-size:.85rem;margin-bottom:1.2rem">
+    Score considera: compatibilidade dark (40%) · demanda/views (25%) · baixa concorrência (20%) · velocidade (15%)
+  </p>
+  <div class="opp-grid">
+        <div class="opp-card high">
+          <div class="opp-score-badge">74</div>
+          <div class="opp-niche">💻 Ciência & Tecnologia</div>
+          <span class="opp-label">🟢 ALTA OPORTUNIDADE</span>
+          <div class="opp-row"><span class="opp-key">👁 Views totais</span><span class="opp-val">961K</span></div>
+          <div class="opp-row"><span class="opp-key">📹 Vídeos virais</span><span class="opp-val">1</span></div>
+          <div class="opp-row"><span class="opp-key">📢 Canais concorrentes</span><span class="opp-val">1</span></div>
+          <div class="opp-row"><span class="opp-key">⚡ Velocidade média</span><span class="opp-val">69K/dia</span></div>
+          <div class="opp-row"><span class="opp-key">🤖 Compat. dark channel</span><span class="opp-val">98/100</span></div>
+          <div class="opp-format">🎬 Formato sugerido: Narração IA + imagens/B-roll + animações</div>
+          <div class="opp-format" style="margin-top:.4rem">🏆 Top vídeo: <a href="https://youtube.com/watch?v=4ZywfIOWMPc" target="_blank" style="color:var(--accent2)">El Nuevo Invento de China que Podría Reemplaz…</a></div>
+          <div class="opp-lang-bar">
+            <div class="opp-lang-row">
+              <span style="width:90px">🇧🇷 Português</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:0%"></div></div>
+              <span style="width:50px;text-align:right">0</span>
+            </div>
+            <div class="opp-lang-row">
+              <span style="width:90px">🇺🇸 English</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:0%"></div></div>
+              <span style="width:50px;text-align:right">0</span>
+            </div>
+            <div class="opp-lang-row">
+              <span style="width:90px">🇪🇸 Español</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:100%"></div></div>
+              <span style="width:50px;text-align:right">961K</span>
+            </div></div>
+        </div>
+        <div class="opp-card mid">
+          <div class="opp-score-badge">62</div>
+          <div class="opp-niche">🎥 Filme & Animação</div>
+          <span class="opp-label">🟡 OPORTUNIDADE MÉDIA</span>
+          <div class="opp-row"><span class="opp-key">👁 Views totais</span><span class="opp-val">264K</span></div>
+          <div class="opp-row"><span class="opp-key">📹 Vídeos virais</span><span class="opp-val">1</span></div>
+          <div class="opp-row"><span class="opp-key">📢 Canais concorrentes</span><span class="opp-val">1</span></div>
+          <div class="opp-row"><span class="opp-key">⚡ Velocidade média</span><span class="opp-val">19K/dia</span></div>
+          <div class="opp-row"><span class="opp-key">🤖 Compat. dark channel</span><span class="opp-val">90/100</span></div>
+          <div class="opp-format">🎬 Formato sugerido: Top listas / recaps narrados + imagens</div>
+          <div class="opp-format" style="margin-top:.4rem">🏆 Top vídeo: <a href="https://youtube.com/watch?v=DM-D9gBpkjI" target="_blank" style="color:var(--accent2)">¡INGENIERO DEL FUTURO VIAJA AL PASADO! 😱 Usa …</a></div>
+          <div class="opp-lang-bar">
+            <div class="opp-lang-row">
+              <span style="width:90px">🇧🇷 Português</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:0%"></div></div>
+              <span style="width:50px;text-align:right">0</span>
+            </div>
+            <div class="opp-lang-row">
+              <span style="width:90px">🇺🇸 English</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:0%"></div></div>
+              <span style="width:50px;text-align:right">0</span>
+            </div>
+            <div class="opp-lang-row">
+              <span style="width:90px">🇪🇸 Español</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:100%"></div></div>
+              <span style="width:50px;text-align:right">264K</span>
+            </div></div>
+        </div>
+        <div class="opp-card mid">
+          <div class="opp-score-badge">62</div>
+          <div class="opp-niche">📚 Educação</div>
+          <span class="opp-label">🟡 OPORTUNIDADE MÉDIA</span>
+          <div class="opp-row"><span class="opp-key">👁 Views totais</span><span class="opp-val">169K</span></div>
+          <div class="opp-row"><span class="opp-key">📹 Vídeos virais</span><span class="opp-val">1</span></div>
+          <div class="opp-row"><span class="opp-key">📢 Canais concorrentes</span><span class="opp-val">1</span></div>
+          <div class="opp-row"><span class="opp-key">⚡ Velocidade média</span><span class="opp-val">12K/dia</span></div>
+          <div class="opp-row"><span class="opp-key">🤖 Compat. dark channel</span><span class="opp-val">97/100</span></div>
+          <div class="opp-format">🎬 Formato sugerido: Narração IA + slides + infográficos</div>
+          <div class="opp-format" style="margin-top:.4rem">🏆 Top vídeo: <a href="https://youtube.com/watch?v=f9Z5Ev-5lsE" target="_blank" style="color:var(--accent2)">Las máquinas de fábrica más impresionantes y …</a></div>
+          <div class="opp-lang-bar">
+            <div class="opp-lang-row">
+              <span style="width:90px">🇧🇷 Português</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:0%"></div></div>
+              <span style="width:50px;text-align:right">0</span>
+            </div>
+            <div class="opp-lang-row">
+              <span style="width:90px">🇺🇸 English</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:0%"></div></div>
+              <span style="width:50px;text-align:right">0</span>
+            </div>
+            <div class="opp-lang-row">
+              <span style="width:90px">🇪🇸 Español</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:100%"></div></div>
+              <span style="width:50px;text-align:right">169K</span>
+            </div></div>
+        </div>
+        <div class="opp-card low">
+          <div class="opp-score-badge">32</div>
+          <div class="opp-niche">🗣️ Pessoas & Blogs</div>
+          <span class="opp-label">🔴 BAIXA OPORTUNIDADE</span>
+          <div class="opp-row"><span class="opp-key">👁 Views totais</span><span class="opp-val">352K</span></div>
+          <div class="opp-row"><span class="opp-key">📹 Vídeos virais</span><span class="opp-val">2</span></div>
+          <div class="opp-row"><span class="opp-key">📢 Canais concorrentes</span><span class="opp-val">2</span></div>
+          <div class="opp-row"><span class="opp-key">⚡ Velocidade média</span><span class="opp-val">13K/dia</span></div>
+          <div class="opp-row"><span class="opp-key">🤖 Compat. dark channel</span><span class="opp-val">25/100</span></div>
+          <div class="opp-format">🎬 Formato sugerido: Difícil sem rosto — baixa compatibilidade</div>
+          <div class="opp-format" style="margin-top:.4rem">🏆 Top vídeo: <a href="https://youtube.com/watch?v=BSfcaG8uN1Q" target="_blank" style="color:var(--accent2)">Huawei ACABA DE HACER EXPLOTAR el mercado tec…</a></div>
+          <div class="opp-lang-bar">
+            <div class="opp-lang-row">
+              <span style="width:90px">🇧🇷 Português</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:0%"></div></div>
+              <span style="width:50px;text-align:right">0</span>
+            </div>
+            <div class="opp-lang-row">
+              <span style="width:90px">🇺🇸 English</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:0%"></div></div>
+              <span style="width:50px;text-align:right">0</span>
+            </div>
+            <div class="opp-lang-row">
+              <span style="width:90px">🇪🇸 Español</span>
+              <div class="opp-bar-bg"><div class="opp-bar-fill" style="width:100%"></div></div>
+              <span style="width:50px;text-align:right">352K</span>
+            </div></div>
+        </div></div>
+</div>
+
+<div class="section">
+  <h2>📊 Ranking por Nicho</h2>
+  <div class="niche-grid">
+        <div class="niche-card top">
+          <div class="niche-rank">🥇</div>
+          <div class="niche-info">
+            <div class="niche-name">💻 Ciência & Tecnologia <small style="color:var(--muted);font-weight:400;font-size:.75rem">— opp. 74/100</small></div>
+            <div class="niche-stats">
+              <span class="pill v">👁 961K</span>
+              <span class="pill">📹 1 vídeos</span>
+              <span class="pill">📢 1 canais</span>
+              <span class="pill s">⚡ 69K/dia</span>
+            </div>
+            <div class="lang-pills"><span class="lang-pill">🇪🇸 961K views</span></div>
+            <div class="top-hint">🏆 <a href="https://youtube.com/watch?v=4ZywfIOWMPc" target="_blank">El Nuevo Invento de China que Podría Reemplazar tu Celular p…</a></div>
+          </div>
+        </div>
+        <div class="niche-card top">
+          <div class="niche-rank">🥈</div>
+          <div class="niche-info">
+            <div class="niche-name">🗣️ Pessoas & Blogs <small style="color:var(--muted);font-weight:400;font-size:.75rem">— opp. 32/100</small></div>
+            <div class="niche-stats">
+              <span class="pill v">👁 352K</span>
+              <span class="pill">📹 2 vídeos</span>
+              <span class="pill">📢 2 canais</span>
+              <span class="pill s">⚡ 13K/dia</span>
+            </div>
+            <div class="lang-pills"><span class="lang-pill">🇪🇸 352K views</span></div>
+            <div class="top-hint">🏆 <a href="https://youtube.com/watch?v=BSfcaG8uN1Q" target="_blank">Huawei ACABA DE HACER EXPLOTAR el mercado tecnológico la jug…</a></div>
+          </div>
+        </div>
+        <div class="niche-card top">
+          <div class="niche-rank">🥉</div>
+          <div class="niche-info">
+            <div class="niche-name">🎥 Filme & Animação <small style="color:var(--muted);font-weight:400;font-size:.75rem">— opp. 62/100</small></div>
+            <div class="niche-stats">
+              <span class="pill v">👁 264K</span>
+              <span class="pill">📹 1 vídeos</span>
+              <span class="pill">📢 1 canais</span>
+              <span class="pill s">⚡ 19K/dia</span>
+            </div>
+            <div class="lang-pills"><span class="lang-pill">🇪🇸 264K views</span></div>
+            <div class="top-hint">🏆 <a href="https://youtube.com/watch?v=DM-D9gBpkjI" target="_blank">¡INGENIERO DEL FUTURO VIAJA AL PASADO! 😱 Usa TECNOLOGÍA MODE…</a></div>
+          </div>
+        </div>
+        <div class="niche-card ">
+          <div class="niche-rank">#4</div>
+          <div class="niche-info">
+            <div class="niche-name">📚 Educação <small style="color:var(--muted);font-weight:400;font-size:.75rem">— opp. 62/100</small></div>
+            <div class="niche-stats">
+              <span class="pill v">👁 169K</span>
+              <span class="pill">📹 1 vídeos</span>
+              <span class="pill">📢 1 canais</span>
+              <span class="pill s">⚡ 12K/dia</span>
+            </div>
+            <div class="lang-pills"><span class="lang-pill">🇪🇸 169K views</span></div>
+            <div class="top-hint">🏆 <a href="https://youtube.com/watch?v=f9Z5Ev-5lsE" target="_blank">Las máquinas de fábrica más impresionantes y satisfactorias …</a></div>
+          </div>
+        </div></div>
+</div>
+
+<div class="section">
+  <h2>📢 Top 20 Canais</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Canal</th><th>Vídeos virais</th><th>Views totais</th><th>Nicho</th><th>Inscritos</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="rk">1</td>
+          <td><a href="https://youtube.com/channel/UCotehFnDYVz5Az39qE-jqBQ" target="_blank" class="clink">Ingenio Chino</a>
+            <div class="cage">34 dias de vida · 🇪🇸</div></td>
+          <td class="num">1</td>
+          <td class="num">961K</td>
+          <td><span class="nbadge">Ciência & Tecnologia</span></td>
+          <td class="num">10K</td>
+        </tr>
+        <tr>
+          <td class="rk">2</td>
+          <td><a href="https://youtube.com/channel/UC8xrvBRAgHqIFNUgwQd0dvw" target="_blank" class="clink">Teatro de Mamista</a>
+            <div class="cage">55 dias de vida · 🇪🇸</div></td>
+          <td class="num">1</td>
+          <td class="num">264K</td>
+          <td><span class="nbadge">Filme & Animação</span></td>
+          <td class="num">1K</td>
+        </tr>
+        <tr>
+          <td class="rk">3</td>
+          <td><a href="https://youtube.com/channel/UCIXzdT91ZdRRtbh8O2lAOnQ" target="_blank" class="clink">Teclyra</a>
+            <div class="cage">69 dias de vida · 🇪🇸</div></td>
+          <td class="num">1</td>
+          <td class="num">178K</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td class="num">9K</td>
+        </tr>
+        <tr>
+          <td class="rk">4</td>
+          <td><a href="https://youtube.com/channel/UC6vhcqfZIXFBE8HxirLFZtA" target="_blank" class="clink">Teatro Alpha</a>
+            <div class="cage">43 dias de vida · 🇪🇸</div></td>
+          <td class="num">1</td>
+          <td class="num">174K</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td class="num">6K</td>
+        </tr>
+        <tr>
+          <td class="rk">5</td>
+          <td><a href="https://youtube.com/channel/UC3AenpapBaPmDsF0CqyFfTg" target="_blank" class="clink">Satisfying Machineries</a>
+            <div class="cage">86 dias de vida · 🇪🇸</div></td>
+          <td class="num">1</td>
+          <td class="num">169K</td>
+          <td><span class="nbadge">Educação</span></td>
+          <td class="num">238</td>
+        </tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section">
+  <h2>🎬 Top 100 Vídeos</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Vídeo</th><th>Canal</th><th>Views</th><th>Velocidade</th><th>Duração</th><th>Nicho</th><th>Publicado</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="rk">1</td>
+          <td><a href="https://youtube.com/watch?v=4ZywfIOWMPc" target="_blank" class="vlink">
+            <img src="https://i.ytimg.com/vi/4ZywfIOWMPc/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            El Nuevo Invento de China que Podría Reemplazar tu C…
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCotehFnDYVz5Az39qE-jqBQ" target="_blank" class="clink">Ingenio Chino</a>
+            <div class="cage">34 dias · 🇪🇸</div></td>
+          <td class="num">961K</td>
+          <td class="num spd">⚡ 69K/dia</td>
+          <td class="num">29m53s</td>
+          <td><span class="nbadge">Ciência & Tecnologia</span></td>
+          <td>31/10/2026</td>
+        </tr>
+        <tr>
+          <td class="rk">2</td>
+          <td><a href="https://youtube.com/watch?v=DM-D9gBpkjI" target="_blank" class="vlink">
+            <img src="https://i.ytimg.com/vi/DM-D9gBpkjI/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            ¡INGENIERO DEL FUTURO VIAJA AL PASADO! 😱 Usa TECNOLO…
+          </a></td>
+          <td><a href="https://youtube.com/channel/UC8xrvBRAgHqIFNUgwQd0dvw" target="_blank" class="clink">Teatro de Mamista</a>
+            <div class="cage">55 dias · 🇪🇸</div></td>
+          <td class="num">264K</td>
+          <td class="num spd">⚡ 19K/dia</td>
+          <td class="num">1h42m</td>
+          <td><span class="nbadge">Filme & Animação</span></td>
+          <td>07/10/2026</td>
+        </tr>
+        <tr>
+          <td class="rk">3</td>
+          <td><a href="https://youtube.com/watch?v=BSfcaG8uN1Q" target="_blank" class="vlink">
+            <img src="https://i.ytimg.com/vi/BSfcaG8uN1Q/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Huawei ACABA DE HACER EXPLOTAR el mercado tecnológic…
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCIXzdT91ZdRRtbh8O2lAOnQ" target="_blank" class="clink">Teclyra</a>
+            <div class="cage">69 dias · 🇪🇸</div></td>
+          <td class="num">178K</td>
+          <td class="num spd">⚡ 13K/dia</td>
+          <td class="num">27m55s</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td>07/10/2026</td>
+        </tr>
+        <tr>
+          <td class="rk">4</td>
+          <td><a href="https://youtube.com/watch?v=Wk4TbChg9rU" target="_blank" class="vlink">
+            <img src="https://i.ytimg.com/vi/Wk4TbChg9rU/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Mi almacén conecta con una dinastía en guerra: les e…
+          </a></td>
+          <td><a href="https://youtube.com/channel/UC6vhcqfZIXFBE8HxirLFZtA" target="_blank" class="clink">Teatro Alpha</a>
+            <div class="cage">43 dias · 🇪🇸</div></td>
+          <td class="num">174K</td>
+          <td class="num spd">⚡ 12K/dia</td>
+          <td class="num">2h15m</td>
+          <td><span class="nbadge">Pessoas & Blogs</span></td>
+          <td>28/10/2026</td>
+        </tr>
+        <tr>
+          <td class="rk">5</td>
+          <td><a href="https://youtube.com/watch?v=f9Z5Ev-5lsE" target="_blank" class="vlink">
+            <img src="https://i.ytimg.com/vi/f9Z5Ev-5lsE/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Las máquinas de fábrica más impresionantes y satisfa…
+          </a></td>
+          <td><a href="https://youtube.com/channel/UC3AenpapBaPmDsF0CqyFfTg" target="_blank" class="clink">Satisfying Machineries</a>
+            <div class="cage">86 dias · 🇪🇸</div></td>
+          <td class="num">169K</td>
+          <td class="num spd">⚡ 12K/dia</td>
+          <td class="num">30m16s</td>
+          <td><span class="nbadge">Educação</span></td>
+          <td>30/09/2026</td>
+        </tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="footer">
+  Viral Finder · YouTube Data API v3 · Canal ≤ 90 dias · ≥ 100k views · ≥ 10k views/dia · GTA 6 excluído · PT + EN + ES
+</div>
+</body>
+</html>
