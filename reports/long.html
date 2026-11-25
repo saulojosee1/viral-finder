@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎬 Vídeos Longos Virais — 25/11/2026 às 17:37h UTC</title>
+<style>
+  :root {
+    --bg: #0f0f13; --surface: #1a1a24; --surface2: #22222f;
+    --accent: #7c3aed; --accent2: #06b6d4; --gold: #f59e0b;
+    --text: #e2e8f0; --muted: #94a3b8; --border: #2d2d3f;
+    --green: #10b981;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; }
+  .header { background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 50%, #1e3a2f 100%); padding: 2.5rem 2rem; text-align: center; border-bottom: 1px solid var(--border); }
+  .header h1 { font-size: 2.2rem; font-weight: 800; background: linear-gradient(90deg, #7c3aed, #06b6d4);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .header p { color: var(--muted); margin-top: 0.4rem; }
+  .run-date { display: inline-block; margin-top: 0.8rem; padding: 0.3rem 1rem;
+    background: rgba(0,0,0,0.3); border: 1px solid var(--accent); border-radius: 999px;
+    font-size: 0.85rem; color: #06b6d4; }
+  .back-link { display: inline-block; margin-top: 0.8rem; margin-left: 0.5rem; padding: 0.3rem 1rem;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 999px;
+    font-size: 0.85rem; color: var(--muted); text-decoration: none; }
+  .back-link:hover { color: var(--text); border-color: var(--muted); }
+  .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem; padding: 2rem; max-width: 1200px; margin: 0 auto; }
+  .sum-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.2rem; text-align: center; }
+  .sum-card .val { font-size: 2rem; font-weight: 800; color: var(--accent2); }
+  .sum-card .lbl { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+  .section { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 2rem; }
+  .section h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1.2rem;
+    padding-bottom: 0.6rem; border-bottom: 2px solid var(--border); }
+  .niche-grid { display: flex; flex-direction: column; gap: 0.8rem; }
+  .niche-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1rem 1.2rem; display: flex; align-items: flex-start; gap: 1rem; transition: border-color 0.2s; }
+  .niche-card:hover { border-color: var(--accent); }
+  .niche-card.top-niche { border-color: var(--gold); background: linear-gradient(135deg, #1a1a24, #1f1a0f); }
+  .niche-rank { font-size: 1.8rem; min-width: 2.5rem; text-align: center; }
+  .niche-name { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .niche-stats { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .stat-pill { background: var(--surface2); border: 1px solid var(--border); border-radius: 999px;
+    padding: 0.2rem 0.7rem; font-size: 0.8rem; color: var(--muted); }
+  .stat-pill.views { color: var(--accent2); border-color: var(--accent2); }
+  .stat-pill.speed { color: var(--green); border-color: var(--green); }
+  .top-video-hint { margin-top: 0.5rem; font-size: 0.8rem; color: var(--muted); }
+  .top-video-hint a { color: var(--accent2); text-decoration: none; }
+  .top-video-hint a:hover { text-decoration: underline; }
+  .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  th { background: var(--surface2); padding: 0.8rem 1rem; text-align: left; font-weight: 600; color: var(--muted); white-space: nowrap; }
+  td { padding: 0.75rem 1rem; border-top: 1px solid var(--border); vertical-align: middle; }
+  tr:hover td { background: rgba(124,58,237,0.05); }
+  .num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .speed-col { color: var(--green); }
+  .rank-num { font-weight: 800; color: var(--accent2); font-size: 1.1rem; text-align: center; }
+  .thumb { width: 80px; height: 45px; object-fit: cover; border-radius: 4px; margin-right: 0.5rem; vertical-align: middle; }
+  .video-link { color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+  .video-link:hover { color: var(--accent2); }
+  .channel-link { color: var(--accent2); text-decoration: none; font-weight: 600; }
+  .channel-link:hover { text-decoration: underline; }
+  .channel-age { font-size: 0.75rem; color: var(--muted); }
+  .niche-badge { background: rgba(124,58,237,0.15); border: 1px solid var(--accent);
+    color: #06b6d4; border-radius: 999px; padding: 0.15rem 0.6rem; font-size: 0.75rem; white-space: nowrap; }
+  .footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.8rem;
+    border-top: 1px solid var(--border); margin-top: 2rem; }
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.5rem; }
+    .section { padding: 1rem; }
+    .thumb { display: none; }
+  }</style>
+</head>
+<body>
+<div class="header">
+  <h1>🎬 Vídeos Longos Virais</h1>
+  <p>Vídeos horizontais com mais de 20 minutos · canais com ≤ 90 dias · ≥ 100k views · ≥ 10k views/dia</p>
+  <div class="run-date">📅 25/11/2026 às 17:37h UTC</div>
+  <a href="index.html" class="back-link">← Voltar ao início</a>
+</div>
+
+<div class="summary">
+  <div class="sum-card"><div class="val">14</div><div class="lbl">Vídeos virais</div></div>
+  <div class="sum-card"><div class="val">11</div><div class="lbl">Canais qualificados</div></div>
+  <div class="sum-card"><div class="val">14.8M</div><div class="lbl">Views totais</div></div>
+  <div class="sum-card"><div class="val">3</div><div class="lbl">Nichos detectados</div></div>
+</div>
+
+<div class="section">
+  <h2>📊 Ranking por Nicho</h2>
+  <div class="niche-grid">
+        <div class="niche-card top-niche">
+          <div class="niche-rank">🥇</div>
+          <div class="niche-info">
+            <div class="niche-name">🗣️ Pessoas & Blogs</div>
+            <div class="niche-stats">
+              <span class="stat-pill views">👁 8.0M views totais</span>
+              <span class="stat-pill">📹 7 vídeos</span>
+              <span class="stat-pill">📢 4 canais</span>
+              <span class="stat-pill speed">⚡ 87K views/dia (média)</span>
+            </div>
+            <div class="top-video-hint">🏆 Top: <a href="https://youtube.com/watch?v=yUwp3UQsPMo" target="_blank">DREAM PROPOSAL VLOG...</a></div>
+          </div>
+        </div>
+        <div class="niche-card top-niche">
+          <div class="niche-rank">🥈</div>
+          <div class="niche-info">
+            <div class="niche-name">🎵 Música</div>
+            <div class="niche-stats">
+              <span class="stat-pill views">👁 6.5M views totais</span>
+              <span class="stat-pill">📹 5 vídeos</span>
+              <span class="stat-pill">📢 5 canais</span>
+              <span class="stat-pill speed">⚡ 92K views/dia (média)</span>
+            </div>
+            <div class="top-video-hint">🏆 Top: <a href="https://youtube.com/watch?v=i-MoMYKA1IU" target="_blank">🎶GAITAS TRADICIONALES 2026 | ¡VIVE LA NAVIDAD VENEZOLANA!🎄🥁...</a></div>
+          </div>
+        </div>
+        <div class="niche-card top-niche">
+          <div class="niche-rank">🥉</div>
+          <div class="niche-info">
+            <div class="niche-name">📚 Educação</div>
+            <div class="niche-stats">
+              <span class="stat-pill views">👁 417K views totais</span>
+              <span class="stat-pill">📹 2 vídeos</span>
+              <span class="stat-pill">📢 2 canais</span>
+              <span class="stat-pill speed">⚡ 15K views/dia (média)</span>
+            </div>
+            <div class="top-video-hint">🏆 Top: <a href="https://youtube.com/watch?v=mWCSsDBLpug" target="_blank">O Brasil Acaba de Construir a Tecnologia de Mineração Que a ...</a></div>
+          </div>
+        </div></div>
+</div>
+
+<div class="section">
+  <h2>📢 Top 20 Canais</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Canal</th><th>Vídeos virais</th><th>Views totais</th><th>Nicho</th><th>Inscritos</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="rank-num">1</td>
+          <td><a href="https://youtube.com/channel/UCU70EXPhef1--7uifBo_ZXg" target="_blank" class="channel-link">Ayushmaan Sethi</a>
+            <div class="channel-age">73 dias de vida</div></td>
+          <td class="num">1</td>
+          <td class="num">4.0M</td>
+          <td><span class="niche-badge">Pessoas & Blogs</span></td>
+          <td class="num">97K</td>
+        </tr>
+        <tr>
+          <td class="rank-num">2</td>
+          <td><a href="https://youtube.com/channel/UC4CuoqEffJo0lDzIoyTsBRg" target="_blank" class="channel-link">Ímpeto</a>
+            <div class="channel-age">60 dias de vida</div></td>
+          <td class="num">4</td>
+          <td class="num">2.3M</td>
+          <td><span class="niche-badge">Pessoas & Blogs</span></td>
+          <td class="num">20K</td>
+        </tr>
+        <tr>
+          <td class="rank-num">3</td>
+          <td><a href="https://youtube.com/channel/UCfoFCP7V0zU_6yXyCA8yVrQ" target="_blank" class="channel-link">Pura Musica 75</a>
+            <div class="channel-age">65 dias de vida</div></td>
+          <td class="num">1</td>
+          <td class="num">1.7M</td>
+          <td><span class="niche-badge">Música</span></td>
+          <td class="num">5K</td>
+        </tr>
+        <tr>
+          <td class="rank-num">4</td>
+          <td><a href="https://youtube.com/channel/UCXCpN8dy81te5vH8VlRzmpA" target="_blank" class="channel-link">Cântico do Lar</a>
+            <div class="channel-age">59 dias de vida</div></td>
+          <td class="num">1</td>
+          <td class="num">1.4M</td>
+          <td><span class="niche-badge">Música</span></td>
+          <td class="num">14K</td>
+        </tr>
+        <tr>
+          <td class="rank-num">5</td>
+          <td><a href="https://youtube.com/channel/UCTbW-4xqF0UdbPt4afh_kQA" target="_blank" class="channel-link">Som & Memória</a>
+            <div class="channel-age">77 dias de vida</div></td>
+          <td class="num">1</td>
+          <td class="num">1.4M</td>
+          <td><span class="niche-badge">Música</span></td>
+          <td class="num">7K</td>
+        </tr>
+        <tr>
+          <td class="rank-num">6</td>
+          <td><a href="https://youtube.com/channel/UCKuKC88aZlwK3oXwTWULNfg" target="_blank" class="channel-link">Mọt Phim Review</a>
+            <div class="channel-age">83 dias de vida</div></td>
+          <td class="num">1</td>
+          <td class="num">1.3M</td>
+          <td><span class="niche-badge">Pessoas & Blogs</span></td>
+          <td class="num">102K</td>
+        </tr>
+        <tr>
+          <td class="rank-num">7</td>
+          <td><a href="https://youtube.com/channel/UCgTGXv6kDwlL2hcOsC54MMA" target="_blank" class="channel-link">Por Trás da Voz</a>
+            <div class="channel-age">63 dias de vida</div></td>
+          <td class="num">1</td>
+          <td class="num">1.1M</td>
+          <td><span class="niche-badge">Música</span></td>
+          <td class="num">16K</td>
+        </tr>
+        <tr>
+          <td class="rank-num">8</td>
+          <td><a href="https://youtube.com/channel/UChD7fgzHdRL_snYO8qvXcpQ" target="_blank" class="channel-link">Sendero de Calma</a>
+            <div class="channel-age">71 dias de vida</div></td>
+          <td class="num">1</td>
+          <td class="num">873K</td>
+          <td><span class="niche-badge">Música</span></td>
+          <td class="num">3K</td>
+        </tr>
+        <tr>
+          <td class="rank-num">9</td>
+          <td><a href="https://youtube.com/channel/UCpKT5HXy5yRj6n5Au3YLqYg" target="_blank" class="channel-link">Segredos da Nonna</a>
+            <div class="channel-age">71 dias de vida</div></td>
+          <td class="num">1</td>
+          <td class="num">415K</td>
+          <td><span class="niche-badge">Pessoas & Blogs</span></td>
+          <td class="num">42K</td>
+        </tr>
+        <tr>
+          <td class="rank-num">10</td>
+          <td><a href="https://youtube.com/channel/UCIo2e1L98ocFiS5bmmj4SgQ" target="_blank" class="channel-link">Riquezas Ocultas do Brasil</a>
+            <div class="channel-age">50 dias de vida</div></td>
+          <td class="num">1</td>
+          <td class="num">234K</td>
+          <td><span class="niche-badge">Educação</span></td>
+          <td class="num">2K</td>
+        </tr>
+        <tr>
+          <td class="rank-num">11</td>
+          <td><a href="https://youtube.com/channel/UCrMN-Hvgg69p7Z0DZB56lMg" target="_blank" class="channel-link">Forjando Gigantes</a>
+            <div class="channel-age">27 dias de vida</div></td>
+          <td class="num">1</td>
+          <td class="num">183K</td>
+          <td><span class="niche-badge">Educação</span></td>
+          <td class="num">4K</td>
+        </tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section">
+  <h2>🎬 Top 100 Vídeos</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Vídeo</th><th>Canal</th><th>Views</th><th>Velocidade</th><th>Duração</th><th>Nicho</th><th>Publicado</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="rank-num">1</td>
+          <td><a href="https://youtube.com/watch?v=yUwp3UQsPMo" target="_blank" class="video-link">
+            <img src="https://i.ytimg.com/vi/yUwp3UQsPMo/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            DREAM PROPOSAL VLOG
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCU70EXPhef1--7uifBo_ZXg" target="_blank" class="channel-link">Ayushmaan Sethi</a>
+            <div class="channel-age">73 dias de vida</div></td>
+          <td class="num">4.0M</td>
+          <td class="num speed-col">⚡ 284K/dia</td>
+          <td class="num">28m13s</td>
+          <td><span class="niche-badge">Pessoas & Blogs</span></td>
+          <td>29/10/2026</td>
+        </tr>
+        <tr>
+          <td class="rank-num">2</td>
+          <td><a href="https://youtube.com/watch?v=i-MoMYKA1IU" target="_blank" class="video-link">
+            <img src="https://i.ytimg.com/vi/i-MoMYKA1IU/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            🎶GAITAS TRADICIONALES 2026 | ¡VIVE LA NAVIDAD VENEZOLAN...
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCfoFCP7V0zU_6yXyCA8yVrQ" target="_blank" class="channel-link">Pura Musica 75</a>
+            <div class="channel-age">65 dias de vida</div></td>
+          <td class="num">1.7M</td>
+          <td class="num speed-col">⚡ 124K/dia</td>
+          <td class="num">24m48s</td>
+          <td><span class="niche-badge">Música</span></td>
+          <td>24/10/2026</td>
+        </tr>
+        <tr>
+          <td class="rank-num">3</td>
+          <td><a href="https://youtube.com/watch?v=t3uSUJj97qw" target="_blank" class="video-link">
+            <img src="https://i.ytimg.com/vi/t3uSUJj97qw/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            São Miguel Arcanjo: Coloque esta música e sinta a prote...
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCXCpN8dy81te5vH8VlRzmpA" target="_blank" class="channel-link">Cântico do Lar</a>
+            <div class="channel-age">59 dias de vida</div></td>
+          <td class="num">1.4M</td>
+          <td class="num speed-col">⚡ 101K/dia</td>
+          <td class="num">37m45s</td>
+          <td><span class="niche-badge">Música</span></td>
+          <td>27/09/2026</td>
+        </tr>
+        <tr>
+          <td class="rank-num">4</td>
+          <td><a href="https://youtube.com/watch?v=ZsWeI1THv1E" target="_blank" class="video-link">
+            <img src="https://i.ytimg.com/vi/ZsWeI1THv1E/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            SÓ AS ANTIGAS ❤️ Grandes Clássicos Para Recordar | Fio ...
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCTbW-4xqF0UdbPt4afh_kQA" target="_blank" class="channel-link">Som & Memória</a>
+            <div class="channel-age">77 dias de vida</div></td>
+          <td class="num">1.4M</td>
+          <td class="num speed-col">⚡ 99K/dia</td>
+          <td class="num">49m28s</td>
+          <td><span class="niche-badge">Música</span></td>
+          <td>11/09/2026</td>
+        </tr>
+        <tr>
+          <td class="rank-num">5</td>
+          <td><a href="https://youtube.com/watch?v=Wyfb4qE-pSo" target="_blank" class="video-link">
+            <img src="https://i.ytimg.com/vi/Wyfb4qE-pSo/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Tổng Tài giàu nhất giả nghèo làm ăn mày thử lòng vợ quê...
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCKuKC88aZlwK3oXwTWULNfg" target="_blank" class="channel-link">Mọt Phim Review</a>
+            <div class="channel-age">83 dias de vida</div></td>
+          <td class="num">1.3M</td>
+          <td class="num speed-col">⚡ 90K/dia</td>
+          <td class="num">1h22m</td>
+          <td><span class="niche-badge">Pessoas & Blogs</span></td>
+          <td>11/11/2026</td>
+        </tr>
+        <tr>
+          <td class="rank-num">6</td>
+          <td><a href="https://youtube.com/watch?v=ibrGwCZC654" target="_blank" class="video-link">
+            <img src="https://i.ytimg.com/vi/ibrGwCZC654/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            ROBERTO CARLOS teve medo dessa música de ZÉ RAMALHO… e ...
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCgTGXv6kDwlL2hcOsC54MMA" target="_blank" class="channel-link">Por Trás da Voz</a>
+            <div class="channel-age">63 dias de vida</div></td>
+          <td class="num">1.1M</td>
+          <td class="num speed-col">⚡ 75K/dia</td>
+          <td class="num">24m23s</td>
+          <td><span class="niche-badge">Música</span></td>
+          <td>04/10/2026</td>
+        </tr>
+        <tr>
+          <td class="rank-num">7</td>
+          <td><a href="https://youtube.com/watch?v=Gpj55nc2bdE" target="_blank" class="video-link">
+            <img src="https://i.ytimg.com/vi/Gpj55nc2bdE/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Os Segredos dos Negócios que Imprimem Dinheiro Enquanto...
+          </a></td>
+          <td><a href="https://youtube.com/channel/UC4CuoqEffJo0lDzIoyTsBRg" target="_blank" class="channel-link">Ímpeto</a>
+            <div class="channel-age">60 dias de vida</div></td>
+          <td class="num">886K</td>
+          <td class="num speed-col">⚡ 63K/dia</td>
+          <td class="num">24m24s</td>
+          <td><span class="niche-badge">Pessoas & Blogs</span></td>
+          <td>14/10/2026</td>
+        </tr>
+        <tr>
+          <td class="rank-num">8</td>
+          <td><a href="https://youtube.com/watch?v=MrhY2rF9T2Q" target="_blank" class="video-link">
+            <img src="https://i.ytimg.com/vi/MrhY2rF9T2Q/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Música para Bajar el Cortisol | 4 Hz Binaural para Redu...
+          </a></td>
+          <td><a href="https://youtube.com/channel/UChD7fgzHdRL_snYO8qvXcpQ" target="_blank" class="channel-link">Sendero de Calma</a>
+            <div class="channel-age">71 dias de vida</div></td>
+          <td class="num">873K</td>
+          <td class="num speed-col">⚡ 62K/dia</td>
+          <td class="num">2h09m</td>
+          <td><span class="niche-badge">Música</span></td>
+          <td>27/09/2026</td>
+        </tr>
+        <tr>
+          <td class="rank-num">9</td>
+          <td><a href="https://youtube.com/watch?v=-Cczs2stU9I" target="_blank" class="video-link">
+            <img src="https://i.ytimg.com/vi/-Cczs2stU9I/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Os Segredos dos Negócios Antigos Que Ainda Fazem Muito ...
+          </a></td>
+          <td><a href="https://youtube.com/channel/UC4CuoqEffJo0lDzIoyTsBRg" target="_blank" class="channel-link">Ímpeto</a>
+            <div class="channel-age">60 dias de vida</div></td>
+          <td class="num">565K</td>
+          <td class="num speed-col">⚡ 40K/dia</td>
+          <td class="num">23m02s</td>
+          <td><span class="niche-badge">Pessoas & Blogs</span></td>
+          <td>28/10/2026</td>
+        </tr>
+        <tr>
+          <td class="rank-num">10</td>
+          <td><a href="https://youtube.com/watch?v=4LHmbaMMgFY" target="_blank" class="video-link">
+            <img src="https://i.ytimg.com/vi/4LHmbaMMgFY/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Os Segredos dos Negócios Que Dão Dinheiro Fazendo o Que...
+          </a></td>
+          <td><a href="https://youtube.com/channel/UC4CuoqEffJo0lDzIoyTsBRg" target="_blank" class="channel-link">Ímpeto</a>
+            <div class="channel-age">60 dias de vida</div></td>
+          <td class="num">500K</td>
+          <td class="num speed-col">⚡ 71K/dia</td>
+          <td class="num">23m44s</td>
+          <td><span class="niche-badge">Pessoas & Blogs</span></td>
+          <td>18/11/2026</td>
+        </tr>
+        <tr>
+          <td class="rank-num">11</td>
+          <td><a href="https://youtube.com/watch?v=Z93dIGMOt6M" target="_blank" class="video-link">
+            <img src="https://i.ytimg.com/vi/Z93dIGMOt6M/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            NUNCA Mais Compre Pão! Faça ISSO Com 3 Ingredientes (Re...
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCpKT5HXy5yRj6n5Au3YLqYg" target="_blank" class="channel-link">Segredos da Nonna</a>
+            <div class="channel-age">71 dias de vida</div></td>
+          <td class="num">415K</td>
+          <td class="num speed-col">⚡ 30K/dia</td>
+          <td class="num">20m34s</td>
+          <td><span class="niche-badge">Pessoas & Blogs</span></td>
+          <td>25/09/2026</td>
+        </tr>
+        <tr>
+          <td class="rank-num">12</td>
+          <td><a href="https://youtube.com/watch?v=-Fl2q2Qv750" target="_blank" class="video-link">
+            <img src="https://i.ytimg.com/vi/-Fl2q2Qv750/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Não Dependa de Patrão! Conheça 8 Pequenos Negócios Que ...
+          </a></td>
+          <td><a href="https://youtube.com/channel/UC4CuoqEffJo0lDzIoyTsBRg" target="_blank" class="channel-link">Ímpeto</a>
+            <div class="channel-age">60 dias de vida</div></td>
+          <td class="num">374K</td>
+          <td class="num speed-col">⚡ 34K/dia</td>
+          <td class="num">27m29s</td>
+          <td><span class="niche-badge">Pessoas & Blogs</span></td>
+          <td>14/11/2026</td>
+        </tr>
+        <tr>
+          <td class="rank-num">13</td>
+          <td><a href="https://youtube.com/watch?v=mWCSsDBLpug" target="_blank" class="video-link">
+            <img src="https://i.ytimg.com/vi/mWCSsDBLpug/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            O Brasil Acaba de Construir a Tecnologia de Mineração Q...
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCIo2e1L98ocFiS5bmmj4SgQ" target="_blank" class="channel-link">Riquezas Ocultas do Brasil</a>
+            <div class="channel-age">50 dias de vida</div></td>
+          <td class="num">234K</td>
+          <td class="num speed-col">⚡ 17K/dia</td>
+          <td class="num">23m34s</td>
+          <td><span class="niche-badge">Educação</span></td>
+          <td>31/10/2026</td>
+        </tr>
+        <tr>
+          <td class="rank-num">14</td>
+          <td><a href="https://youtube.com/watch?v=binmvf8b7XA" target="_blank" class="video-link">
+            <img src="https://i.ytimg.com/vi/binmvf8b7XA/mqdefault.jpg" class="thumb" onerror="this.style.display='none'">
+            Como Fazer as Pessoas Terem Medo de Desrespeitar Você |...
+          </a></td>
+          <td><a href="https://youtube.com/channel/UCrMN-Hvgg69p7Z0DZB56lMg" target="_blank" class="channel-link">Forjando Gigantes</a>
+            <div class="channel-age">27 dias de vida</div></td>
+          <td class="num">183K</td>
+          <td class="num speed-col">⚡ 13K/dia</td>
+          <td class="num">21m37s</td>
+          <td><span class="niche-badge">Educação</span></td>
+          <td>01/11/2026</td>
+        </tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="footer">
+  Viral Finder · YouTube Data API v3 · Canal ≤ 90 dias · ≥ 100k views · ≥ 10k views/dia · GTA 6 excluído
+</div>
+</body>
+</html>
