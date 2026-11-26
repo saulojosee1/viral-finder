@@ -1,11 +1,17 @@
 """
-main.py — Viral Finder · PT + EN + ES · Shorts e Vídeos Longos
+main.py — Viral Finder (Foco: Canais Dark Narrados ≥ 8 min · PT + EN + ES)
 """
 import logging
 import sys
-from fetcher import get_youtube_client, search_recent_videos, get_video_stats, get_channel_details
+from fetcher import (
+    YouTubeAPIError,
+    get_youtube_client,
+    search_recent_videos,
+    get_video_stats,
+    get_channel_details,
+)
 from filter import filter_videos
-from reporter import save_report, save_landing_page
+from reporter import save_report
 import config
 
 logging.basicConfig(
@@ -16,60 +22,69 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def collect_videos(youtube, mode: str) -> list[dict]:
-    duration_param = "short" if mode == "shorts" else "long"
-    label = "📱 Shorts" if mode == "shorts" else "🎬 Vídeos Longos"
-
-    logger.info(f"\n{'='*55}")
-    logger.info(f"{label} — buscando em PT + EN + ES")
-    logger.info(f"{'='*55}")
+def collect_dark_videos(youtube) -> list[dict]:
+    logger.info("=" * 60)
+    logger.info("🌑 Viral Finder Dark — UFOs, Mistérios, True Crime, História & Terror")
+    logger.info(
+        f"📋 Critérios: canal ≤ {config.CHANNEL_MAX_AGE_DAYS}d | "
+        f"duração ≥ {config.VIDEO_MIN_DURATION_SECONDS // 60} min | "
+        f"views ≥ {config.VIDEO_MIN_VIEWS:,} | "
+        f"velocidade ≥ {config.VIDEO_MIN_VIEWS_PER_DAY:,}/dia"
+    )
+    logger.info("=" * 60)
 
     all_raw = []
-
     for lang, region, lang_label in config.LANGUAGES:
-        terms = config.SEARCH_TERMS.get(lang, config.SEARCH_TERMS["pt"])
-        logger.info(f"\n  🌍 {lang_label}")
-        for term in terms:
-            raw = search_recent_videos(
-                youtube, term, config.SEARCH_PUBLISHED_AFTER,
-                video_duration=duration_param,
-                lang=lang, region=region,
-            )
-            for item in raw:
-                item["_searchTerm"] = term
-            all_raw.extend(raw)
-        logger.info(f"     → {sum(1 for v in all_raw if v.get('language') == lang)} encontrados até agora")
+        terms = config.SEARCH_TERMS.get(lang, [])
+        logger.info(f"\n🌍 {lang_label}")
+        lang_count = 0
+        for bucket in config.DURATION_BUCKETS:
+            for term in terms:
+                raw = search_recent_videos(
+                    youtube,
+                    term,
+                    config.SEARCH_PUBLISHED_AFTER,
+                    video_duration=bucket,
+                    lang=lang,
+                    region=region,
+                )
+                for item in raw:
+                    item["_searchTerm"] = term
+                all_raw.extend(raw)
+                lang_count += len(raw)
+        logger.info(f"   → {lang_count} resultados brutos coletados")
 
-    # Deduplicação — mantém o registro do idioma que trouxe mais views (via stats depois)
+    # Deduplica mantendo a primeira ocorrência
     seen: dict[str, dict] = {}
     for v in all_raw:
         if v["videoId"] not in seen:
             seen[v["videoId"]] = v
     unique = list(seen.values())
-    logger.info(f"\n  🔄 Únicos após dedup: {len(unique)}")
+    logger.info(f"\n🔄 Vídeos únicos para inspeção: {len(unique)}")
 
-    # Stats dos vídeos
+    if not unique:
+        return []
+
     video_ids = [v["videoId"] for v in unique]
-    logger.info(f"  📊 Buscando stats de {len(video_ids)} vídeos...")
+    logger.info(f"📊 Buscando estatísticas de {len(video_ids)} vídeos...")
     video_stats = get_video_stats(youtube, video_ids)
 
-    # Detalhes dos canais
     channel_ids = list({v["channelId"] for v in unique})
-    logger.info(f"  📢 Buscando {len(channel_ids)} canais...")
+    logger.info(f"📢 Buscando detalhes de {len(channel_ids)} canais...")
     channel_details = get_channel_details(youtube, channel_ids)
 
-    # Filtra
     qualified = []
     for v in unique:
         result = filter_videos(
-            [v], video_stats, channel_details,
+            [v],
+            video_stats,
+            channel_details,
             search_term=v.get("_searchTerm", ""),
-            mode=mode,
             lang=v.get("language", "pt"),
         )
         qualified.extend(result)
 
-    logger.info(f"  ✅ {len(qualified)} vídeos qualificados")
+    logger.info(f"\n✅ {len(qualified)} vídeos dark qualificados!")
     return qualified
 
 
@@ -78,29 +93,20 @@ def run():
         logger.error("❌ YOUTUBE_API_KEY não definida!")
         sys.exit(1)
 
-    logger.info("🚀 Viral Finder · PT + EN + ES · Shorts + Vídeos Longos")
-
-    # Estimativa de cota: 8 termos × 3 idiomas × 2 modos × 100 units = 4.800 units
-    # Limite diário gratuito: 10.000 units → margem segura ✅
     total_terms = sum(len(v) for v in config.SEARCH_TERMS.values())
-    n_modes = 2
-    est_quota = total_terms * n_modes * 100
-    logger.info(f"📊 Estimativa de consumo de cota: ~{est_quota} units (limite: 10.000/dia)")
+    est_quota = total_terms * len(config.DURATION_BUCKETS) * 100
+    logger.info(f"📊 Consumo estimado de buscas: ~{est_quota} units (limite diário: 10.000)")
 
-    youtube = get_youtube_client()
+    try:
+        youtube = get_youtube_client()
+        videos = collect_dark_videos(youtube)
+    except YouTubeAPIError as err:
+        # Interrompe sem sobrescrever relatórios anteriores com zeros
+        logger.error(f"🛑 Execução abortada para proteger relatório atual: {err}")
+        sys.exit(1)
 
-    shorts_videos = collect_videos(youtube, mode="shorts")
-    save_report(shorts_videos, mode="shorts")
-
-    long_videos = collect_videos(youtube, mode="long")
-    save_report(long_videos, mode="long")
-
-    save_landing_page(
-        shorts_count=len(shorts_videos),
-        long_count=len(long_videos),
-    )
-
-    logger.info("\n🎉 Concluído!")
+    path = save_report(videos)
+    logger.info(f"🎉 Relatório salvo em: {path}")
 
 
 if __name__ == "__main__":
